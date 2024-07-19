@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 3 "
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 5 "
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-07-10-23-54 "
+		@last_edit_date :=	 	" 2024-07-18-13-48 "
 
 	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {Dowland's Lute Tuning}
 
@@ -1112,21 +1112,21 @@ on init
 			set_control_par(get_ui_id($paradigms_menu),$CONTROL_PAR_PARENT_PANEL,get_ui_id($gui_panel__scalesmithing_tab))
 			set_control_par(get_ui_id ($paradigms_menu),$CONTROL_PAR_POS_X,103)
 			set_control_par(get_ui_id ($paradigms_menu),$CONTROL_PAR_POS_Y,0)
-			add_menu_item ($paradigms_menu, "Just Intonation [automatable]",808) {TODO}
-			add_menu_item ($paradigms_menu, "Just Intonation [high precision]",800) {TODO}
-			add_menu_item ($paradigms_menu, "Epimoric",1000) {TODO}
-			add_menu_item ($paradigms_menu, "Euler-Fokker genera",1001) {TODO}
-			add_menu_item ($paradigms_menu, "Combination Product Set",1002) {TODO}
+			add_menu_item ($paradigms_menu, "Just Intonation",808)
+		{   add_menu_item ($paradigms_menu, "Just Intonation [high precision]",800) }
+			add_menu_item ($paradigms_menu, "Exponentiation",1101)
+		{	add_menu_item ($paradigms_menu, "Exponentiation [high precision]",1100)}
+			add_menu_item ($paradigms_menu, "Epimoric",1000)
+			add_menu_item ($paradigms_menu, "Euler-Fokker genera",1001)
+			add_menu_item ($paradigms_menu, "Combination Product Set",1002)
 			add_menu_item ($paradigms_menu, "Cent input",801) {TODO}
 			add_menu_item ($paradigms_menu, "Hertz input",1935) {TODO}
-			add_menu_item ($paradigms_menu, "Exponentiation [automatable]",1101) {TODO}
-			add_menu_item ($paradigms_menu, "Exponentiation [high precision]",1100) {TODO}
-			add_menu_item ($paradigms_menu, "Equal-step tuning",1111) {TODO}
-			add_menu_item ($paradigms_menu, "Temperament Units (John Brombaugh's TU notation)",720) {TODO}
+			add_menu_item ($paradigms_menu, "Equal-step tuning",1111)
+			add_menu_item ($paradigms_menu, "Temperament Units (John Brombaugh's TU notation)",720)
 			add_menu_item ($paradigms_menu, "Period + generator",3) {TODO}
-			add_menu_item ($paradigms_menu, "Zalewski's harmonic structures",98) {TODO}
-			add_menu_item ($paradigms_menu, "Zalewski's q(n,z) structure",99) {TODO}
-			add_menu_item ($paradigms_menu, "",7) {TODO} {"load tuning from .nka file"}
+			add_menu_item ($paradigms_menu, "Zalewski's harmonic structures",98)
+			add_menu_item ($paradigms_menu, "Zalewski's q(n,z) structure",99)
+		{	add_menu_item ($paradigms_menu, "",7)} {TODO "load tuning from .nka file"}
 			make_persistent ($paradigms_menu)
 			read_persistent_var($paradigms_menu)
 
@@ -8292,36 +8292,43 @@ end function
 on ui_control($gui_cent_value_1)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 0 ] := $gui_cent_value_1
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 0] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 0])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_cent_value_2)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 1 ] := $gui_cent_value_2
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 1] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 1])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_cent_value_3)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 2 ] := $gui_cent_value_3
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 2] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 2])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_cent_value_4)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 3 ] := $gui_cent_value_4
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 3] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 3])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_cent_value_5)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 4 ] := $gui_cent_value_5
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 4] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 4])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_cent_value_6)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 5 ] := $gui_cent_value_6
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 5] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 5])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_cent_value_7)
 	%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter+ 6 ] := $gui_cent_value_7
 	?tuning_table[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 6] := int_to_real(%panel_tune_by_cents__milicent_array[$panel__tune_by_cents__num_of_ui_values*$panel__tune_by_cents__navigation_counter + 6])/1000.0
+	call recalculate_tuning_from_cent_uivalues	
 	call recalculate_tuning_dependend_transposition_modules
 end on
 
@@ -9093,7 +9100,6 @@ end function
 
 
 function func_calculate_euler_fokker_genus
-	~efg_interval_of_equivalence_ratio := 2.0 {interval of equivalence}
 
 	$counter1 := 0
 	if ($efg_generator_1 > 0)
@@ -9196,6 +9202,9 @@ function func_calculate_euler_fokker_genus
 			?efg_calc_array[25] := ?efg_generators[0]*?efg_generators[1]*?efg_generators[2]*?efg_generators[3]*?efg_generators[4]
 	end select
 	{Transpose to the same octave (or other interval of equivalence):}
+	{
+		~efg_interval_of_equivalence_ratio := 2.0
+
 		$counter1 := 0
 		while ($counter1 < num_elements(?efg_calc_array))
 			if (?efg_calc_array[$counter1] # 0.0)
@@ -9205,6 +9214,46 @@ function func_calculate_euler_fokker_genus
 			end if
 			inc($counter1)
 		end while
+	}
+
+	{octave reduction:}
+	    select ($switch__reduce_by_octave)
+	   		case 1
+	   			~reduction_interval := 1200.0
+	 	  	case 0
+	 	  		~reduction_interval := ~interval_of_equivalence
+	    end select
+	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
+	   		$counter1 := 0
+			while ($counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios)
+				select($switch__reduction_mode)
+					case 0
+						while ( ?efg_calc_array[$counter1] >= ~interval_of_equivalence )
+							?efg_calc_array[$counter1] := ?efg_calc_array[$counter1] - ~reduction_interval
+						end while
+						while (?efg_calc_array[$counter1] < 0.0)
+							?efg_calc_array[$counter1] := ?efg_calc_array[$counter1] + ~reduction_interval
+						end while
+					case 1
+						while ( (?efg_calc_array[$counter1] > ~interval_of_equivalence) or (?efg_calc_array[$counter1] < 0.0) )
+							if (?efg_calc_array[$counter1] < 0.0)
+								?efg_calc_array[$counter1] := -1.0 * ?efg_calc_array[$counter1]
+							end if
+							if (?efg_calc_array[$counter1] = ~reduction_interval)
+								?efg_calc_array[$counter1] := 0.0
+							end if
+							if ( ?efg_calc_array[$counter1] >= ~interval_of_equivalence )
+								?efg_calc_array[$counter1] := ~reduction_interval - (?efg_calc_array[$counter1] - ~reduction_interval)
+							end if
+						end while
+				end select
+				inc($counter1)
+			end while
+	   end if
+
+
+
+
 
 	{sort(?efg_calc_array,1)} {od najwiekszej do najmniejszej wartosci}
 	$counter1 := 1
@@ -9355,9 +9404,12 @@ $cps_k__num_of_elem_in_combination := 2}
 		inc($cps_counter)
 	end while
 
+
+
+	{reduce through the interval of equivalence}
+	{
 	$cps_counter := 0
 	while ($cps_counter < $cps_combi_count)
-		{reduce through the interval of equivalence}
 			while (?cps_tuning_table_cents[$cps_counter] >= ~interval_of_equivalence)
 				?cps_tuning_table_cents[$cps_counter] := ?cps_tuning_table_cents[$cps_counter] - ~interval_of_equivalence
 			end while
@@ -9366,6 +9418,43 @@ $cps_k__num_of_elem_in_combination := 2}
 			end while
 		inc($cps_counter)
 	end while
+	}
+
+	{octave reduction:}
+	    select ($switch__reduce_by_octave)
+	   		case 1
+	   			~reduction_interval := 1200.0
+	 	  	case 0
+	 	  		~reduction_interval := ~interval_of_equivalence
+	    end select
+	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
+	   		$counter1 := 0
+			while ($counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios)
+				select($switch__reduction_mode)
+					case 0
+						while ( ?cps_tuning_table_cents[$counter1] >= ~interval_of_equivalence )
+							?cps_tuning_table_cents[$counter1] := ?cps_tuning_table_cents[$counter1] - ~reduction_interval
+						end while
+						while (?cps_tuning_table_cents[$counter1] < 0.0)
+							?cps_tuning_table_cents[$counter1] := ?cps_tuning_table_cents[$counter1] + ~reduction_interval
+						end while
+					case 1
+						while ( (?cps_tuning_table_cents[$counter1] > ~interval_of_equivalence) or (?cps_tuning_table_cents[$counter1] < 0.0) )
+							if (?cps_tuning_table_cents[$counter1] < 0.0)
+								?cps_tuning_table_cents[$counter1] := -1.0 * ?cps_tuning_table_cents[$counter1]
+							end if
+							if (?cps_tuning_table_cents[$counter1] = ~reduction_interval)
+								?cps_tuning_table_cents[$counter1] := 0.0
+							end if
+							if ( ?cps_tuning_table_cents[$counter1] >= ~interval_of_equivalence )
+								?cps_tuning_table_cents[$counter1] := ~reduction_interval - (?cps_tuning_table_cents[$counter1] - ~reduction_interval)
+							end if
+						end while
+						
+				end select
+				inc($counter1)
+			end while
+	   end if
 
 	{bubble sort}
 	$cps_counter_2 := 0
@@ -9644,6 +9733,7 @@ end function
 
 {JI RATIOS 800}
 function recalculate_tuning_from_ji_ratios()
+	$counter1 := 0
 	while ($counter1 < $number_of_pitch_classes-1)
 		?tuning_table[$counter1+1] := 1200.0*log(int_to_real(%ji_ratio_numerators[$counter1])/int_to_real(%ji_ratio_denominators[$counter1]))/log(2.0)
 		inc($counter1)
@@ -9785,122 +9875,122 @@ end function
 
 on ui_control($gui_ji_ratio1_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0] := $gui_ji_ratio1_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio1_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0] := $gui_ji_ratio1_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+0]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio2_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1] := $gui_ji_ratio2_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio2_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1] := $gui_ji_ratio2_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+1]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio3_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2] := $gui_ji_ratio3_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio3_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2] := $gui_ji_ratio3_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+2]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio4_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3] := $gui_ji_ratio4_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio4_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3] := $gui_ji_ratio4_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+3]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio5_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4] := $gui_ji_ratio5_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio5_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4] := $gui_ji_ratio5_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+4]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio6_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5] := $gui_ji_ratio6_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio6_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5] := $gui_ji_ratio6_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+5]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio7_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6] := $gui_ji_ratio7_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio7_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6] := $gui_ji_ratio7_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+6]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio8_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7] := $gui_ji_ratio8_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio8_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7] := $gui_ji_ratio8_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+7]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio9_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8] := $gui_ji_ratio9_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio9_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8] := $gui_ji_ratio9_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+8]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio10_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9] := $gui_ji_ratio10_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio10_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9] := $gui_ji_ratio10_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+9]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio11_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10] := $gui_ji_ratio11_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio11_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10] := $gui_ji_ratio11_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+10]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio12_numerator)
 	%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11] := $gui_ji_ratio12_numerator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+12] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 on ui_control($gui_ji_ratio12_denominator)
 	%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11] := $gui_ji_ratio12_denominator
-	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+12] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11]))/log(2.0)
+	?tuning_table[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11] := 1200.0*log(int_to_real(%ji_ratio_numerators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11])/int_to_real(%ji_ratio_denominators[$panel__tune_by_ji_ratios_precise__num_of_uivalues*$panel__tune_by_ji_ratios_precise__navigation_counter+11]))/log(2.0)
 	call recalculate_tuning_dependend_transposition_modules
 end on
 
@@ -11006,18 +11096,44 @@ function recalculate_tuning_from_periodandgenerator_panel()
 				inc($counter1)
 			end while
 		end if
-		{reduce octave:}
 
-		$counter1 := 0
-		while ($counter1 < $number_of_pitch_classes)
-			while (?tuning_table[$counter1] > ~interval_of_equivalence)
-				?tuning_table[$counter1] := ?tuning_table[$counter1] - ~interval_of_equivalence
+	    {octave reduction:}
+	    select ($switch__reduce_by_octave)
+	   		case 1
+	   			~reduction_interval := 1200.0
+	 	  	case 0
+	 	  		~reduction_interval := ~interval_of_equivalence
+	    end select
+	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
+	   		$counter1 := 0
+			while ($counter1 < $number_of_pitch_classes)
+				select($switch__reduction_mode)
+					case 0
+						while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+							?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
+						end while
+						while (?tuning_table[$counter1] < 0.0)
+							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
+						end while
+					case 1
+						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+							if (?tuning_table[$counter1] < 0.0)
+								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
+							end if
+							if (?tuning_table[$counter1] = ~reduction_interval)
+								?tuning_table[$counter1] := 0.0
+							end if
+							if ( ?tuning_table[$counter1] > ~interval_of_equivalence )
+								?tuning_table[$counter1] := ~reduction_interval - (?tuning_table[$counter1] - ~reduction_interval)
+							end if
+						end while
+				end select
+				inc($counter1)
 			end while
-			while (?tuning_table[$counter1] < 0.0)
-				?tuning_table[$counter1] := ?tuning_table[$counter1] + ~interval_of_equivalence
-			end while
-			inc($counter1)
-		end while
+        end if
+
+
+
 		{bubble sort}
 	
 		$counter2 := 0
@@ -11165,20 +11281,43 @@ function calculate_epimoric_tuning()
 		end while
 
 	end if
-		{reduce octaves:}
 
-		$counter1 := 0
-		while ($counter1 < $number_of_pitch_classes)
-			if (?epimoric_scales__calc_array[$counter1] < 0.0)
-				?epimoric_scales__calc_array[$counter1] := ?epimoric_scales__calc_array[$counter1] + ~interval_of_equivalence
-			end if
-			if (?epimoric_scales__calc_array[$counter1] > ~interval_of_equivalence)
-				?epimoric_scales__calc_array[$counter1] := ?epimoric_scales__calc_array[$counter1] - ~interval_of_equivalence
-			end if
-			inc($counter1)
-		end while
+	    {octave reduction:}
+		    select ($switch__reduce_by_octave)
+		   		case 1
+		   			~reduction_interval := 1200.0
+		 	  	case 0
+		 	  		~reduction_interval := ~interval_of_equivalence
+		    end select
+		    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
+		   		$counter1 := 0
+				while ($counter1 < $number_of_pitch_classes)
+					select($switch__reduction_mode)
+						case 0
+							while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+								?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
+							end while
+							while (?tuning_table[$counter1] < 0.0)
+								?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
+							end while
+						case 1
+							while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+								if (?tuning_table[$counter1] < 0.0)
+									?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
+								end if
+								if (?tuning_table[$counter1] = ~reduction_interval)
+									?tuning_table[$counter1] := 0.0
+								end if
+								if ( ?tuning_table[$counter1] > ~interval_of_equivalence )
+									?tuning_table[$counter1] := ~reduction_interval - (?tuning_table[$counter1] - ~reduction_interval)
+								end if
+							end while
+					end select
+					inc($counter1)
+				end while
+	        end if
 
-		{bubble sort}
+		{bubble sort:}
 
 		$counter2 := 0
 		while ($counter2 < $number_of_pitch_classes)
@@ -11291,7 +11430,7 @@ function recalculate_tuning()
 	call recalculate_zalewski_qnz
 	end if
 	if ($paradigms_menu = 1100)
-		call recalculate_tuning_from_ji_ratios
+		call recalculate_tuning_from_exponent_ratios
 	end if
 	if ($paradigms_menu = 1001)
 		call func_calculate_euler_fokker_genus
@@ -11382,7 +11521,7 @@ function display_correct_view_in_scalesmithing_tab()
 	if ($paradigms_menu = 1100)
 		$panel__tune_by_exponent_ratios_visibility := 1
 		set_control_par(get_ui_id($panel__tune_by_exponent_ratios), $CONTROL_PAR_HIDE, $HIDE_PART_NOTHING)
-		call recalculate_tuning_from_ji_ratios
+		call recalculate_tuning_from_exponent_ratios
 	else
 		$panel__tune_by_exponent_ratios_visibility := 0
 		set_control_par(get_ui_id($panel__tune_by_exponent_ratios), $CONTROL_PAR_HIDE, $HIDE_WHOLE_CONTROL) 
@@ -15745,9 +15884,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                          v 1 . 0  3  3                                       +}
+{+                                          v 1 . 0  3  5                                       +}
 {+                                                                                              +}
-{+                               last edit date: 2024-07-10-23-54                               +}
+{+                               last edit date: 2024-07-18-13-48                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
