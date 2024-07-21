@@ -1,4 +1,4 @@
-#Harmonic Enigma Script for Kontakt
+# Harmonic Enigma Script for Kontakt
 ##About
 This is a KSP scalesmithing script for xenharmonic explorations in Kontakt. This is my swiss knife for manipulating tunings, cales and harmonies inside Native Instruments Kontakt.
 
