@@ -1,17 +1,18 @@
 # Harmonic Enigma Script for Kontakt
 ## About
 Harmonic Enigma Script v1.037\
-This is a KSP scalesmithing script for xenharmonic explorations in Kontakt. This is my swiss knife for manipulating tunings, cales and harmonies inside Native Instruments Kontakt.
+This is my swiss knife script for manipulating tunings, scales and harmonies inside Native Instruments Kontakt.
+I made is as my personal project. Right now I'm to lazy to record a proper tutorial but I might do one in the feature if people are interested.
 
 ## Requirements
 Kontakt v. 6.8 (previous versions might also work but there has been some glitches observed in Kontakt 5).
 ## Setup
-Copy the script code and past it inside Kontakt script editor. Once loaded you can save it as a preset to quickly recall the script in other instruments.
+Copy the script code and past it inside Kontakt instrument script editor. Once loaded you can save it as a preset to quickly recall the script in other instruments.
 ### Troubleshooting
 Unfortunately Kontakt has 5 script slots and sometimes all of them are taken by default. If this is the case, you might have to delete one of the current scripts or redo the instrument whatsover.
 
 ## Why another microtuning script?
-I wanted to encompass different tuning systems into one script. This include Erv Wilson's CPS, Euler-Fokker genera and others. Those systems are not unique for this script but can be fully automated and adjusted procedurally.
+I wanted to create a tuning script that would allow me to easily automate any microtonal changes procedurally inside any octave or non-octave tuning system. This include Erv Wilson's CPS, Euler-Fokker genera and others.
 ### Automation
 Most existing scripts are limited in one way or another, mainly in terms of automations. I wanted to be able to automate microtonal tunings freely and change them dynamically. Most of the time user input is done through ui_value KSP objects which do not allow any kind of automation. Midi is limited to 128 note classes. Automation extends the possible number of pitch classes above this limit.
 ### Script range
@@ -41,9 +42,9 @@ You can listen to it here: https://www.youtube.com/watch?v=yFuzTY85e2Q
 The original project was made in Max MSP but I recreated it's features in KSP.\
 I will try to explain them briefly using my limited english vocabulary: The important think is that I enjoy the harmonies that this system proposes. There are some nice prime number sequences that I like to explore musically and geometrically. This system involves combining ratios in a form of (n+m)/m or n/(n+m) where n and m are simple integers. Those look pretty mathematically because the increments of m create consecutive steps of the scale, e.g. for n=5 m goes from zero to five forming a pentatonic with frequency ratios: (5+0)/5; (5+1)/5; (5+2)/5; (5+3)/5; (5+4)/5. I call those variables modus and gradus. Then, starting from any of the pitch classes, i construct a conjunct scale in a same manner. In the composition "Epimoric Music" I used only modus=3. The ratios (n+m)/m are similar to the harmonic mean monochord operations. Ratios in a form of n/(n+m) are similar to the arithmetic mean. I understand harmonic and arithmetic means as otonal and utonal harmonies, that is major-like overtone segments and minor-like undertone (subharmonic) scales. The core of this harmonic system are not the scales themselfs, but the fact, that they are transposed and modulated through common-tones. I find all of those possible connections very musical and I often use them as a compositional technique. I later expanded the rules of those tranpositions outside of the "epimoric scales" to all circular tuning systems. This is the gist of it.\
 While working on this project I was fascinated by the properties of superparticular (epimoric) ratios. I also used them in place of "standard" prime numbers inside the fundamemtal theorem of arithmetic. I think it's an interesting concept so I will mention it briefly:\
-The "epimoric notation" is similar to the Monzo notation (please refer to Tonalsoft encyclopedia) but is based on "(p+1)/p" ratios and not singular "p", e.g. 3=[0,1] in Monzo notation but it's [1,1] in the epimoric one, because 3=2<sup>0</sup>* 3<sup>1</sup>=(2/1)<sup>1</sup>* (3/2)<sup>1</sup>. When writing down natural integers the 'epimoric notation' seems less random than the Monzos (which are simple prime factors), because the total number of factors increases steadly with nearly every integer. I also prefer to think how many octaves (2/1), fifths (3/2) and major thirds (5/4) there are from a given fundamental and not how many 2nd, 3rd and 5th multipliers there are. Below are examples of this notation for numbers 1 to 13:\
+The "epimoric notation" is similar to the Monzo notation (please refer to Tonalsoft encyclopedia) but is based on "(p+1)/p" ratios and not singular "p", e.g. 3=[0,1] in Monzo notation but it's [1,1] in the epimoric one, because 3=2<sup>0</sup>* 3<sup>1</sup>=(2/1)<sup>1</sup>* (3/2)<sup>1</sup>. When writing down natural integers the 'epimoric notation' seems less random than the Monzos (which are simple prime factors), because the total number of factors increases steadly with nearly every integer. I also prefer to think how many octaves (2/1), fifths (3/2) and major thirds (5/4) there are from a given fundamental and not how many 2nd, 3rd and 5th multipliers there are. Below are examples of this notation for numbers 1 to 13:
 
-#### Prime factors (Monzos) of natural integers (integer as a product of p<sup>n</sup>)\
+#### Prime factors (Monzos) of natural integers (integer as a product of p<sup>n</sup>):
 1 = [0];\
 2 = [1];\
 3 = [0, 1];\
@@ -56,10 +57,10 @@ The "epimoric notation" is similar to the Monzo notation (please refer to Tonals
 10 = [1, 0, 1];\
 11 = [0, 0, 0, 0, 1];\
 12 = [2, 1];\
-13 = [0, 0, 0, 0, 0, 1];\
+13 = [0, 0, 0, 0, 0, 1];
 
 
-#### "Epimoric factors" of natural integers (integer as a product of ((p+1)/p)<sup>n</sup>)
+#### "Epimoric factors" of natural integers (integer as a product of ((p+1)/p)<sup>n</sup>):
 1 = [0];\
 2 = [1];\
 3 = [1, 1];\
@@ -72,7 +73,7 @@ The "epimoric notation" is similar to the Monzo notation (please refer to Tonals
 10 = [3, 0, 1];\
 11 = [3, 0, 1, 0, 1];\
 12 = [3, 1];\
-13 = [3, 1, 0, 0, 0, 1];\
+13 = [3, 1, 0, 0, 0, 1];
 
 Integers can also be written as a product of (p/(p+1))<sup>n</sup>.\
 I think it's a cool mathematical concept and I didn't see it used anywhere outside of my composition "Epimoric Music".
