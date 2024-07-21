@@ -1,8 +1,10 @@
 # Harmonic Enigma Script for Kontakt
 ## About
 Harmonic Enigma Script v1.037\
-This is my swiss knife script for manipulating tunings, scales and harmonies inside Native Instruments Kontakt.
-I made is as my personal project. Right now I'm to lazy to record a proper tutorial but I might do one in the feature if people are interested.
+This is my swiss knife script for manipulating tunings, scales and harmonies inside Native Instruments Kontakt.\
+I made is as my personal project. Right now I'm to lazy to record a proper tutorial but I might do one in the feature if people are interested.\
+Consider supporting me on patreon :) \
+patreon.com/ioannivarsovius
 
 ## Requirements
 Kontakt v. 6.8 (previous versions might also work but there has been some glitches observed in Kontakt 5).
