@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 5 "
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 7 "
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-07-18-13-48 "
+		@last_edit_date :=	 	" 2024-07-21-11-11 "
 
 	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {Dowland's Lute Tuning}
 
@@ -675,7 +675,7 @@ on init
 
 			declare ui_switch $switch__rpn_connect
 				set_control_par_str(get_ui_id($switch__rpn_connect),$CONTROL_PAR_AUTOMATION_NAME,"tuning__rpn_connect")
-				$switch__rpn_connect := 0
+				$switch__rpn_connect := 1
 				make_persistent($switch__rpn_connect)
 				read_persistent_var($switch__rpn_connect)
 				set_control_par(get_ui_id ($switch__rpn_connect),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_scalesmithing_settings))
@@ -874,7 +874,7 @@ on init
 	   			set_control_par(get_ui_id($switch__adaptive_pure_tuning), $CONTROL_PAR_WIDTH, $panel_scalesmithing_settings_btn_width)
 	    		set_control_par(get_ui_id($switch__adaptive_pure_tuning), $CONTROL_PAR_HEIGHT, 18 )
 				set_control_par(get_ui_id($switch__adaptive_pure_tuning), $CONTROL_PAR_TEXT_ALIGNMENT, 1)
-				set_control_par_str(get_ui_id ($switch__adaptive_pure_tuning),$CONTROL_PAR_HELP, "Momentarily switch to Adaptive Just Intonation and intonate unlimited comma pumps.")
+				set_control_par_str(get_ui_id ($switch__adaptive_pure_tuning),$CONTROL_PAR_HELP, "Momentarily switch to Adaptive Just Intonation and intonate unlimited comma pumps. This is an experimental feature.")
 				select ($switch__adaptive_pure_tuning)
 					case 0
 						set_control_par_str(get_ui_id($switch__adaptive_pure_tuning), $CONTROL_PAR_TEXT, "[ off ]")
@@ -890,13 +890,12 @@ on init
 			   declare $pompka__event_note := 0
 			   declare ~previous_note_pitch_hz := 440.0
 			   declare $previous_event_note_pitch := 69
-			   declare const $pompka__logic_array_length := 19 {num of rows in logic array}
+			   declare const $pompka__logic_array_length := 18 {num of rows in logic array}
 			   declare %pompka__logic_array[4*$pompka__logic_array_length] := ( 	0, 0, 1, 1,	        ...
 																					7, 0, 3, 2,	     	...
 																					5, 0, 4, 3,	     	...
 																					9, 0, 5, 3,		    ...
 																					4, 0,  5, 4,		...
-																					2, 9, 8, 7,		    ...
 																					3, 10, 7, 6,		...
 																					10, 7, 7, 4,		...
 																					3, 0, 6, 5,		    ...
@@ -11240,11 +11239,17 @@ function calculate_epimoric_tuning()
 		while ($counter1 < $knob__epimoric_generators__modus1)
 			select ($epimoric_generators_utonal_switch_1)
 				case 0
-				?epimoric_scales__calc_array[$counter1] := int_to_real($knob__epimoric_generators__modus1 + ($counter1 mod $number_of_pitch_classes)) / int_to_real($knob__epimoric_generators__modus1)
+					?epimoric_scales__calc_array[$counter1] := int_to_real($knob__epimoric_generators__modus1 + ($counter1 mod $number_of_pitch_classes)) / int_to_real($knob__epimoric_generators__modus1)
 				case 1
-				?epimoric_scales__calc_array[$counter1] := int_to_real($knob__epimoric_generators__modus1) / int_to_real($knob__epimoric_generators__modus1 + ($counter1 mod $number_of_pitch_classes) )
+					?epimoric_scales__calc_array[$counter1] := int_to_real($knob__epimoric_generators__modus1) / int_to_real($knob__epimoric_generators__modus1 + ($counter1 mod $number_of_pitch_classes) )
 			end select
 			?epimoric_scales__calc_array[$counter1] := 1200.0 * log(?epimoric_scales__calc_array[$counter1]) / log(2.0)
+
+			{utonal should be octave higher to compensate:}
+			select ($epimoric_generators_utonal_switch_1)
+				case 1
+					?epimoric_scales__calc_array[$counter1] := ?epimoric_scales__calc_array[$counter1] + ~interval_of_equivalence
+			end select
 			inc($counter1)
 		end while
 
@@ -15884,9 +15889,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                          v 1 . 0  3  5                                       +}
+{+                                          v 1 . 0  3  7                                       +}
 {+                                                                                              +}
-{+                               last edit date: 2024-07-18-13-48                               +}
+{+                               last edit date: 2024-07-21-11-11                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
