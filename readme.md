@@ -1,6 +1,6 @@
 # Harmonic Enigma Script for Kontakt
 ## About
-Harmonic Enigma Script v1.037\
+Harmonic Enigma Script v1.039\
 This is my swiss knife script for manipulating tunings, scales and harmonies inside Native Instruments Kontakt.\
 I made is as my personal project. Right now I'm to lazy to record a proper tutorial but I might do one in the feature if people are interested.\
 Consider supporting me on patreon :) \
@@ -12,9 +12,11 @@ Kontakt v. 6.8 (previous versions might also work but there has been some glitch
 Copy the script code and past it inside Kontakt instrument script editor. Once loaded you can save it as a preset to quickly recall the script in other instruments.
 ### Troubleshooting
 Unfortunately Kontakt has 5 script slots and sometimes all of them are taken by default. If this is the case, you might have to delete one of the current scripts or redo the instrument whatsover.
+### Known issues
+Euler-Fokker genera module is under development.
 
 ## Why another microtuning script?
-I wanted to create a tuning script that would allow me to easily automate any microtonal changes procedurally inside any octave or non-octave tuning system. This include Erv Wilson's CPS, Euler-Fokker genera and others.
+I wanted to create a tuning script that would allow me to easily automate any microtonal changes procedurally inside my favourite octave and non-octave tuning systems.
 ### Automation
 Most existing scripts are limited in one way or another, mainly in terms of automations. I wanted to be able to automate microtonal tunings freely and change them dynamically. Most of the time user input is done through ui_value KSP objects which do not allow any kind of automation. Midi is limited to 128 note classes. Automation extends the possible number of pitch classes above this limit.
 ### Script range

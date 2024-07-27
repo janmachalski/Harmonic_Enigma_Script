@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 7 "
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 9 "
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-07-21-11-11 "
+		@last_edit_date :=	 	" 2024-07-27-11-13 "
 
 	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {Dowland's Lute Tuning}
 
@@ -637,6 +637,7 @@ on init
 						set_control_par_str(get_ui_id($switch__monochrome_behaviour), $CONTROL_PAR_TEXT, "[ Yes ]")
 				end select
 
+		if (1=1)
 		{ui_panel $panel_scalesmithing_settings}
 
 			set_control_par(get_ui_id ($panel_scalesmithing_settings),$CONTROL_PAR_POS_X,388)
@@ -939,7 +940,9 @@ on init
 					case 1
 						set_control_par_str(get_ui_id($switch__quantizebeatstobpm), $CONTROL_PAR_TEXT, "[ ON ]")
 				end select
+			end if
 
+		if (1=1)
 		{ui_panel $panel__last_note_info}
 				set_control_par(get_ui_id ($panel__last_note_info),$CONTROL_PAR_POS_X,0)
 				set_control_par(get_ui_id ($panel__last_note_info),$CONTROL_PAR_POS_Y,180)
@@ -1040,6 +1043,7 @@ on init
 					read_persistent_var ($dummy_knob_detune_value_cent_percentage)
 					set_text ($dummy_knob_detune_value_cent_percentage," % c")
 					set_knob_label ($dummy_knob_detune_value_cent_percentage," ")
+			end if
 
 	{SCALESMITHING TAB:}
 		declare $scalesmithing_paradigm_panel_pos_x {left indent}
@@ -1115,12 +1119,12 @@ on init
 		{   add_menu_item ($paradigms_menu, "Just Intonation [high precision]",800) }
 			add_menu_item ($paradigms_menu, "Exponentiation",1101)
 		{	add_menu_item ($paradigms_menu, "Exponentiation [high precision]",1100)}
-			add_menu_item ($paradigms_menu, "Epimoric",1000)
-			add_menu_item ($paradigms_menu, "Euler-Fokker genera",1001)
 			add_menu_item ($paradigms_menu, "Combination Product Set",1002)
+			add_menu_item ($paradigms_menu, "Equal-step tuning",1111)
+			add_menu_item ($paradigms_menu, "Epimoric",1000)
+			add_menu_item ($paradigms_menu, "Euler-Fokker genera (this module has been faulty)",1001)
 			add_menu_item ($paradigms_menu, "Cent input",801) {TODO}
 			add_menu_item ($paradigms_menu, "Hertz input",1935) {TODO}
-			add_menu_item ($paradigms_menu, "Equal-step tuning",1111)
 			add_menu_item ($paradigms_menu, "Temperament Units (John Brombaugh's TU notation)",720)
 			add_menu_item ($paradigms_menu, "Period + generator",3) {TODO}
 			add_menu_item ($paradigms_menu, "Zalewski's harmonic structures",98)
@@ -1269,7 +1273,7 @@ on init
 						set_control_par(%tune_by_cents__uivalue_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
 						inc($counter1)
 					end while
-
+		if (1=1)
 		{just intonation module - tune by ji ratios precise - menu 800}
 			declare %default_ji_tuning[12*2] := ...
 					(	1, 1,   ...
@@ -1494,7 +1498,10 @@ on init
 					set_control_par(%tune_by_ji_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
 					inc($counter1)
 				end while
+		end if
 
+
+		if (1=1)
 		{automatable just intonation module - jiknobs - 808 in menu}
 			declare %default_jiknobs_tuning[6*2] := ...
 					(	1, 1,	...
@@ -1881,6 +1888,7 @@ on init
 					set_control_par_str (%knobids__panel_jiknobs__numerators[$counter1],$CONTROL_PAR_TEXT,"   " &  !cyfry_rzymskie[$counter1+1])
 					inc($counter1)
 				end while
+		end if
 
 	{exponentiation module [automatable] - expknobs - 1101 in menu}
 			declare %default_expknobs_tuning[6*2] := ...
@@ -2268,6 +2276,7 @@ on init
 					inc($counter1)
 				end while
 
+	if (1=1)
 	{Euler-Fokker genera module}
 
 		declare ui_panel $panel_eulerfokkergenera
@@ -2389,7 +2398,9 @@ on init
 				end if
 
 			sort(?efg_generators,1)
+		end if
 
+	if (1=1)
 	{Combination Product Sets - CPS - module, 1002 in menu}
 
 		declare $cps_n__generator_set_size := 4
@@ -2594,233 +2605,235 @@ on init
 					case 70
 						set_text ($label_cps_setting," "& $cps_k__num_of_elem_in_combination & " ) " & $cps_n__generator_set_size & " " & "  h e n d o m e k o n t a n y")
 				end select
+	end if
 
-
+	if (1=1)
 	{tune by exponent ratios module - menu 1100}
-			declare %default_exponent_tuning[12*2] := ...
-					(	0, 12,	...
-						1, 12,	...
-						2, 12,	...
-						3, 12,	...
-						4, 12,	...
-						5, 12,	...
-						6, 12,  ...
-						7, 12,	...
-						8, 12,	...
-						9, 12,	...
-						10, 12,	...
-						11, 12  )
+				declare %default_exponent_tuning[12*2] := ...
+						(	0, 12,	...
+							1, 12,	...
+							2, 12,	...
+							3, 12,	...
+							4, 12,	...
+							5, 12,	...
+							6, 12,  ...
+							7, 12,	...
+							8, 12,	...
+							9, 12,	...
+							10, 12,	...
+							11, 12  )
 
-		declare ui_panel $panel__tune_by_exponent_ratios
-			set_control_par(get_ui_id($panel__tune_by_exponent_ratios),$CONTROL_PAR_PARENT_PANEL,get_ui_id($gui_panel__scalesmithing_tab))
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios),$CONTROL_PAR_POS_X,12)
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios),$CONTROL_PAR_POS_Y,30)
-			declare const $panel__tune_by_exponent_ratios__num_of_uivalues := 12
-			declare $panel__tune_by_exponent_ratios_width
-				$panel__tune_by_exponent_ratios_width := 550
-			declare $panel__tune_by_exponent_ratios__nav_btn_width
-				$panel__tune_by_exponent_ratios__nav_btn_width := 20
-			declare $panel__tune_by_exponent_ratios__ratios_table_column_width := 40
-			declare $panel__tune_by_exponent_ratios__ratios_value_width := 40
-			declare $panel__tune_by_exponent_ratios__numerator_denominator_spacing := 20
-			declare $panel__tune_by_exponent_ratios_visibility
-				$panel__tune_by_exponent_ratios_visibility := 0
-				make_persistent($panel__tune_by_exponent_ratios_visibility)
-				read_persistent_var($panel__tune_by_exponent_ratios_visibility)
+				declare ui_panel $panel__tune_by_exponent_ratios
+					set_control_par(get_ui_id($panel__tune_by_exponent_ratios),$CONTROL_PAR_PARENT_PANEL,get_ui_id($gui_panel__scalesmithing_tab))
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios),$CONTROL_PAR_POS_X,12)
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios),$CONTROL_PAR_POS_Y,30)
+					declare const $panel__tune_by_exponent_ratios__num_of_uivalues := 12
+					declare $panel__tune_by_exponent_ratios_width
+						$panel__tune_by_exponent_ratios_width := 550
+					declare $panel__tune_by_exponent_ratios__nav_btn_width
+						$panel__tune_by_exponent_ratios__nav_btn_width := 20
+					declare $panel__tune_by_exponent_ratios__ratios_table_column_width := 40
+					declare $panel__tune_by_exponent_ratios__ratios_value_width := 40
+					declare $panel__tune_by_exponent_ratios__numerator_denominator_spacing := 20
+					declare $panel__tune_by_exponent_ratios_visibility
+						$panel__tune_by_exponent_ratios_visibility := 0
+						make_persistent($panel__tune_by_exponent_ratios_visibility)
+						read_persistent_var($panel__tune_by_exponent_ratios_visibility)
 
-			declare ui_panel $panel__tune_by_exp_ratios__num_of_cats
-				set_control_par(get_ui_id($panel__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios))	
-				set_control_par(get_ui_id ($panel__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_X,91)
-				set_control_par(get_ui_id ($panel__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_Y,0)
+					declare ui_panel $panel__tune_by_exp_ratios__num_of_cats
+						set_control_par(get_ui_id($panel__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios))	
+						set_control_par(get_ui_id ($panel__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_X,91)
+						set_control_par(get_ui_id ($panel__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_Y,0)
 
-				declare ui_label $label__tune_by_exp_ratios__num_of_cats (1,1)
-					set_text ($label__tune_by_exp_ratios__num_of_cats,"n u m   o f  c a t s")
-					set_control_par(get_ui_id($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exp_ratios__num_of_cats))
-					set_control_par(get_ui_id($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_WIDTH,88)
-					set_control_par(get_ui_id ($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_X,0)
-					set_control_par(get_ui_id ($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_Y,0)
-				declare ui_knob $knob__number_of_pitch_classes__tune_by_exp_ratios(1,128,1)
-					set_control_par_str(get_ui_id($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_AUTOMATION_NAME,"number_of_pitch_classes")
-					$knob__number_of_pitch_classes__tune_by_exp_ratios := 5
-					make_persistent($knob__number_of_pitch_classes__tune_by_exp_ratios)
-					read_persistent_var($knob__number_of_pitch_classes__tune_by_exp_ratios)
-					set_text ($knob__number_of_pitch_classes__tune_by_exp_ratios," steps")
-					set_control_par(get_ui_id($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exp_ratios__num_of_cats))
-					set_control_par(get_ui_id ($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_POS_X,0)
-					set_control_par(get_ui_id ($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_POS_Y,22)
+						declare ui_label $label__tune_by_exp_ratios__num_of_cats (1,1)
+							set_text ($label__tune_by_exp_ratios__num_of_cats,"n u m   o f  c a t s")
+							set_control_par(get_ui_id($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exp_ratios__num_of_cats))
+							set_control_par(get_ui_id($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_WIDTH,88)
+							set_control_par(get_ui_id ($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_X,0)
+							set_control_par(get_ui_id ($label__tune_by_exp_ratios__num_of_cats),$CONTROL_PAR_POS_Y,0)
+						declare ui_knob $knob__number_of_pitch_classes__tune_by_exp_ratios(1,128,1)
+							set_control_par_str(get_ui_id($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_AUTOMATION_NAME,"number_of_pitch_classes")
+							$knob__number_of_pitch_classes__tune_by_exp_ratios := 5
+							make_persistent($knob__number_of_pitch_classes__tune_by_exp_ratios)
+							read_persistent_var($knob__number_of_pitch_classes__tune_by_exp_ratios)
+							set_text ($knob__number_of_pitch_classes__tune_by_exp_ratios," steps")
+							set_control_par(get_ui_id($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exp_ratios__num_of_cats))
+							set_control_par(get_ui_id ($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_POS_X,0)
+							set_control_par(get_ui_id ($knob__number_of_pitch_classes__tune_by_exp_ratios),$CONTROL_PAR_POS_Y,22)
 
-		declare ui_panel $panel__tune_by_exponent_ratios_table
-			set_control_par(get_ui_id($panel__tune_by_exponent_ratios_table),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios))
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios_table),$CONTROL_PAR_POS_X, 11)
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios_table),$CONTROL_PAR_POS_Y, 71)
+				declare ui_panel $panel__tune_by_exponent_ratios_table
+					set_control_par(get_ui_id($panel__tune_by_exponent_ratios_table),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios))
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios_table),$CONTROL_PAR_POS_X, 11)
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios_table),$CONTROL_PAR_POS_Y, 71)
 
-		declare ui_label $label_exponent_ratios_table (1,1)
-			set_text ($label_exponent_ratios_table," powers of the equave (numerators and denominators):")
-			set_control_par(get_ui_id($label_exponent_ratios_table),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
-			set_control_par(get_ui_id($label_exponent_ratios_table),$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios_width)
-			set_control_par(get_ui_id ($label_exponent_ratios_table),$CONTROL_PAR_POS_X,0)
-			set_control_par(get_ui_id ($label_exponent_ratios_table),$CONTROL_PAR_POS_Y,0)
+				declare ui_label $label_exponent_ratios_table (1,1)
+					set_text ($label_exponent_ratios_table," powers of the equave (numerators and denominators):")
+					set_control_par(get_ui_id($label_exponent_ratios_table),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
+					set_control_par(get_ui_id($label_exponent_ratios_table),$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios_width)
+					set_control_par(get_ui_id ($label_exponent_ratios_table),$CONTROL_PAR_POS_X,0)
+					set_control_par(get_ui_id ($label_exponent_ratios_table),$CONTROL_PAR_POS_Y,0)
 
-		declare $panel__tune_by_exponent_ratios__navigation_counter
-			$panel__tune_by_exponent_ratios__navigation_counter := 0 {which twelve scale steps are currently displayed in the table of ratios}
-			make_persistent($panel__tune_by_exponent_ratios__navigation_counter)
-			read_persistent_var($panel__tune_by_exponent_ratios__navigation_counter)
+				declare $panel__tune_by_exponent_ratios__navigation_counter
+					$panel__tune_by_exponent_ratios__navigation_counter := 0 {which twelve scale steps are currently displayed in the table of ratios}
+					make_persistent($panel__tune_by_exponent_ratios__navigation_counter)
+					read_persistent_var($panel__tune_by_exponent_ratios__navigation_counter)
 
-		declare ui_button $panel__tune_by_exponent_ratios__navigate_left
-			$panel__tune_by_exponent_ratios__navigate_left := 0
-			set_text ($panel__tune_by_exponent_ratios__navigate_left,"<")
-			set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
-			set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__nav_btn_width)
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_POS_X,0)
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_POS_Y,28)
-			if ($panel__tune_by_exponent_ratios__navigation_counter = 0)
-				set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
-			else
-				set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
-			end if
+				declare ui_button $panel__tune_by_exponent_ratios__navigate_left
+					$panel__tune_by_exponent_ratios__navigate_left := 0
+					set_text ($panel__tune_by_exponent_ratios__navigate_left,"<")
+					set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
+					set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__nav_btn_width)
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_POS_X,0)
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_POS_Y,28)
+					if ($panel__tune_by_exponent_ratios__navigation_counter = 0)
+						set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+					else
+						set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_left),$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
+					end if
 
-		declare ui_button $panel__tune_by_exponent_ratios__navigate_right
-			$panel__tune_by_exponent_ratios__navigate_right := 0
-			set_text ($panel__tune_by_exponent_ratios__navigate_right,">")
-			set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
-			set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__nav_btn_width)
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_POS_X,$panel__tune_by_exponent_ratios_width-$panel__tune_by_exponent_ratios__nav_btn_width)
-			set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_POS_Y,27)
-			if ($knob__number_of_pitch_classes__tune_by_exp_ratios+($panel__tune_by_exponent_ratios__navigation_counter * $panel__tune_by_exponent_ratios__num_of_uivalues) <= $panel__tune_by_exponent_ratios__num_of_uivalues)
-				set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
-			else
-				set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
-			end if
+				declare ui_button $panel__tune_by_exponent_ratios__navigate_right
+					$panel__tune_by_exponent_ratios__navigate_right := 0
+					set_text ($panel__tune_by_exponent_ratios__navigate_right,">")
+					set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
+					set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__nav_btn_width)
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_POS_X,$panel__tune_by_exponent_ratios_width-$panel__tune_by_exponent_ratios__nav_btn_width)
+					set_control_par(get_ui_id ($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_POS_Y,27)
+					if ($knob__number_of_pitch_classes__tune_by_exp_ratios+($panel__tune_by_exponent_ratios__navigation_counter * $panel__tune_by_exponent_ratios__num_of_uivalues) <= $panel__tune_by_exponent_ratios__num_of_uivalues)
+						set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+					else
+						set_control_par(get_ui_id($panel__tune_by_exponent_ratios__navigate_right),$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
+					end if
 
-		declare ui_panel $panel_exponent_ratios
-			set_control_par(get_ui_id($panel_exponent_ratios),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
-			set_control_par(get_ui_id ($panel_exponent_ratios),$CONTROL_PAR_POS_X,40)
-			set_control_par(get_ui_id ($panel_exponent_ratios),$CONTROL_PAR_POS_Y,18)
+				declare ui_panel $panel_exponent_ratios
+					set_control_par(get_ui_id($panel_exponent_ratios),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__tune_by_exponent_ratios_table))
+					set_control_par(get_ui_id ($panel_exponent_ratios),$CONTROL_PAR_POS_X,40)
+					set_control_par(get_ui_id ($panel_exponent_ratios),$CONTROL_PAR_POS_Y,18)
 
-		declare %exponent_ratio_numerators[256] := (8)
-			$counter1 := 0
-				while ($counter1 < num_elements(%default_exponent_tuning) / 2)
-					%exponent_ratio_numerators[$counter1] := %default_exponent_tuning[2*$counter1]
-					inc($counter1)
-				end while			
-				while ($counter1 < num_elements(%exponent_ratio_numerators))
-					%exponent_ratio_numerators[$counter1] := $counter1
-					inc($counter1)
-				end while
-			make_persistent(%exponent_ratio_numerators)
-			read_persistent_var(%exponent_ratio_numerators)
+				declare %exponent_ratio_numerators[256] := (8)
+					$counter1 := 0
+						while ($counter1 < num_elements(%default_exponent_tuning) / 2)
+							%exponent_ratio_numerators[$counter1] := %default_exponent_tuning[2*$counter1]
+							inc($counter1)
+						end while			
+						while ($counter1 < num_elements(%exponent_ratio_numerators))
+							%exponent_ratio_numerators[$counter1] := $counter1
+							inc($counter1)
+						end while
+					make_persistent(%exponent_ratio_numerators)
+					read_persistent_var(%exponent_ratio_numerators)
 
-		declare %exponent_ratio_denominators[256] := (8)
-			$counter1 := 0
-				while ($counter1 < num_elements(%default_exponent_tuning) / 2)
-					%exponent_ratio_denominators[$counter1] := %default_exponent_tuning[2*$counter1+1]
-					inc($counter1)
-				end while			
-				while ($counter1 < num_elements(%exponent_ratio_numerators))
-					%exponent_ratio_denominators[$counter1] := $counter1
-					inc($counter1)
-				end while
-			make_persistent(%exponent_ratio_denominators)
-			read_persistent_var(%exponent_ratio_denominators)
+				declare %exponent_ratio_denominators[256] := (8)
+					$counter1 := 0
+						while ($counter1 < num_elements(%default_exponent_tuning) / 2)
+							%exponent_ratio_denominators[$counter1] := %default_exponent_tuning[2*$counter1+1]
+							inc($counter1)
+						end while			
+						while ($counter1 < num_elements(%exponent_ratio_numerators))
+							%exponent_ratio_denominators[$counter1] := $counter1
+							inc($counter1)
+						end while
+					make_persistent(%exponent_ratio_denominators)
+					read_persistent_var(%exponent_ratio_denominators)
 
-		declare %tune_by_exponent_ratios__ui_numerator_id[$panel__tune_by_exponent_ratios__num_of_uivalues+0]
-		declare %tune_by_exponent_ratios__ui_denominator_id[$panel__tune_by_exponent_ratios__num_of_uivalues+0]
+				declare %tune_by_exponent_ratios__ui_numerator_id[$panel__tune_by_exponent_ratios__num_of_uivalues+0]
+				declare %tune_by_exponent_ratios__ui_denominator_id[$panel__tune_by_exponent_ratios__num_of_uivalues+0]
 
-				{note: $gui_exponent_ratioN_numerator... are only display object for the GUI, not the tuning data itself (?tuning_table)}
+						{note: $gui_exponent_ratioN_numerator... are only display object for the GUI, not the tuning data itself (?tuning_table)}
 
-				$counter1 := 0
-				declare ui_value_edit $gui_exponent_ratio1_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio1_numerator)
-				declare ui_value_edit $gui_exponent_ratio1_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio1_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio2_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio2_numerator)
-				declare ui_value_edit $gui_exponent_ratio2_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio2_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio3_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio3_numerator)
-				declare ui_value_edit $gui_exponent_ratio3_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio3_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio4_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio4_numerator)
-				declare ui_value_edit $gui_exponent_ratio4_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio4_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio5_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio5_numerator)
-				declare ui_value_edit $gui_exponent_ratio5_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio5_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio6_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio6_numerator)
-				declare ui_value_edit $gui_exponent_ratio6_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio6_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio7_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio7_numerator)
-				declare ui_value_edit $gui_exponent_ratio7_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio7_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio8_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio8_numerator)
-				declare ui_value_edit $gui_exponent_ratio8_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio8_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio9_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio9_numerator)
-				declare ui_value_edit $gui_exponent_ratio9_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio9_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio10_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio10_numerator)
-				declare ui_value_edit $gui_exponent_ratio10_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio10_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio11_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio11_numerator)
-				declare ui_value_edit $gui_exponent_ratio11_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio11_denominator)
-				inc($counter1)
-				declare ui_value_edit $gui_exponent_ratio12_numerator(-65536,65536,1)
-					%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio12_numerator)
-				declare ui_value_edit $gui_exponent_ratio12_denominator(1,65536,1)
-					%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio12_denominator)
+						$counter1 := 0
+						declare ui_value_edit $gui_exponent_ratio1_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio1_numerator)
+						declare ui_value_edit $gui_exponent_ratio1_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio1_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio2_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio2_numerator)
+						declare ui_value_edit $gui_exponent_ratio2_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio2_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio3_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio3_numerator)
+						declare ui_value_edit $gui_exponent_ratio3_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio3_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio4_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio4_numerator)
+						declare ui_value_edit $gui_exponent_ratio4_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio4_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio5_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio5_numerator)
+						declare ui_value_edit $gui_exponent_ratio5_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio5_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio6_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio6_numerator)
+						declare ui_value_edit $gui_exponent_ratio6_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio6_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio7_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio7_numerator)
+						declare ui_value_edit $gui_exponent_ratio7_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio7_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio8_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio8_numerator)
+						declare ui_value_edit $gui_exponent_ratio8_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio8_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio9_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio9_numerator)
+						declare ui_value_edit $gui_exponent_ratio9_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio9_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio10_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio10_numerator)
+						declare ui_value_edit $gui_exponent_ratio10_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio10_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio11_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio11_numerator)
+						declare ui_value_edit $gui_exponent_ratio11_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio11_denominator)
+						inc($counter1)
+						declare ui_value_edit $gui_exponent_ratio12_numerator(-65536,65536,1)
+							%tune_by_exponent_ratios__ui_numerator_id[$counter1] := get_ui_id ($gui_exponent_ratio12_numerator)
+						declare ui_value_edit $gui_exponent_ratio12_denominator(1,65536,1)
+							%tune_by_exponent_ratios__ui_denominator_id[$counter1] := get_ui_id ($gui_exponent_ratio12_denominator)
 
-				$counter1 := 0
-				while ($counter1 < $panel__tune_by_exponent_ratios__num_of_uivalues)
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_VALUE, %exponent_ratio_numerators[$panel__tune_by_exponent_ratios__navigation_counter * $panel__tune_by_exponent_ratios__num_of_uivalues + $counter1])
-					set_control_par_str (%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_TEXT,"")
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_exponent_ratios))
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__ratios_value_width)
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_POS_X,$panel__tune_by_exponent_ratios__ratios_table_column_width*($counter1 mod 12))
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_POS_Y,2)
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1], $CONTROL_PAR_DEFAULT_VALUE, 0)
+						$counter1 := 0
+						while ($counter1 < $panel__tune_by_exponent_ratios__num_of_uivalues)
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_VALUE, %exponent_ratio_numerators[$panel__tune_by_exponent_ratios__navigation_counter * $panel__tune_by_exponent_ratios__num_of_uivalues + $counter1])
+							set_control_par_str (%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_TEXT,"")
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_exponent_ratios))
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__ratios_value_width)
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_POS_X,$panel__tune_by_exponent_ratios__ratios_table_column_width*($counter1 mod 12))
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_POS_Y,2)
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1], $CONTROL_PAR_DEFAULT_VALUE, 0)
 
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_VALUE, %exponent_ratio_denominators[$panel__tune_by_exponent_ratios__navigation_counter*12 + $counter1])
-					set_control_par_str (%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_TEXT,"")
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_exponent_ratios))
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__ratios_value_width)
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_POS_X,$panel__tune_by_exponent_ratios__ratios_table_column_width*($counter1 mod 12))
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_POS_Y,$panel__tune_by_exponent_ratios__numerator_denominator_spacing)
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1], $CONTROL_PAR_DEFAULT_VALUE, 12)
-					inc($counter1)
-				end while
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_VALUE, %exponent_ratio_denominators[$panel__tune_by_exponent_ratios__navigation_counter*12 + $counter1])
+							set_control_par_str (%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_TEXT,"")
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_exponent_ratios))
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_WIDTH,$panel__tune_by_exponent_ratios__ratios_value_width)
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_POS_X,$panel__tune_by_exponent_ratios__ratios_table_column_width*($counter1 mod 12))
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_POS_Y,$panel__tune_by_exponent_ratios__numerator_denominator_spacing)
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1], $CONTROL_PAR_DEFAULT_VALUE, 12)
+							inc($counter1)
+						end while
 
-				$counter1 := 0
-				while (($panel__tune_by_exponent_ratios__num_of_uivalues*$panel__tune_by_exponent_ratios__navigation_counter) + $counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios and $counter1 < $panel__tune_by_exponent_ratios__num_of_uivalues)
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
-					inc($counter1)
-				end while
+						$counter1 := 0
+						while (($panel__tune_by_exponent_ratios__num_of_uivalues*$panel__tune_by_exponent_ratios__navigation_counter) + $counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios and $counter1 < $panel__tune_by_exponent_ratios__num_of_uivalues)
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
+							inc($counter1)
+						end while
 
-				while ($counter1 <  $panel__tune_by_exponent_ratios__num_of_uivalues) {added "$knob__number_of_pitch_classes__tune_by_exp_ratios mod "}
-					set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
-					set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
-					inc($counter1)
-				end while
+						while ($counter1 <  $panel__tune_by_exponent_ratios__num_of_uivalues) {added "$knob__number_of_pitch_classes__tune_by_exp_ratios mod "}
+							set_control_par(%tune_by_exponent_ratios__ui_numerator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+							set_control_par(%tune_by_exponent_ratios__ui_denominator_id[$counter1],$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+							inc($counter1)
+						end while
+		end if
 
 		{Equal-Step tuning - ED - 1111 in paradigm menu}
 
@@ -9103,28 +9116,27 @@ function func_calculate_euler_fokker_genus
 	$counter1 := 0
 	if ($efg_generator_1 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_1)
-		inc($counter1)
+		inc($efg_degree)
 	end if
 	if ($efg_generator_2 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_2)
-		inc($counter1)
+		inc($efg_degree)
 	end if
 	if ($efg_generator_3 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_3)
-		inc($counter1)
+		inc($efg_degree)
 	end if
 	if ($efg_generator_4 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_4)
-		inc($counter1)
+		inc($efg_degree)
 	end if
 	if ($efg_generator_5 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_5)
-		inc($counter1)
+		inc($efg_degree)
 	end if
 
-	$efg_degree := $counter1
-
 	{sort(?efg_generators,1)}
+	{
 	$counter1 := 1
 	while ( $counter1 < num_elements(?efg_generators) )
 		if (?efg_generators[$counter1] > ?efg_generators[$counter1 - 1])
@@ -9134,6 +9146,7 @@ function func_calculate_euler_fokker_genus
 		end if
 		inc($counter1)
 	end while
+	}
 	
 	$counter1 := 0
 	while ($counter1 < num_elements(?efg_calc_array))
@@ -9143,12 +9156,15 @@ function func_calculate_euler_fokker_genus
 
 	select ($efg_degree)
 		case 1
+			$efg_number_of_pitch_classes := 1
 			?efg_calc_array[0] := ?efg_generators[0]
 		case 2
+			$efg_number_of_pitch_classes := 3
 			?efg_calc_array[0] := ?efg_generators[0] 
 			?efg_calc_array[1] := ?efg_generators[1]
 			?efg_calc_array[2] := ?efg_generators[0]*?efg_generators[1]
 		case 3
+			$efg_number_of_pitch_classes := 7
 			?efg_calc_array[0] := ?efg_generators[0]
 			?efg_calc_array[1] := ?efg_generators[1]
 			?efg_calc_array[2] := ?efg_generators[2]
@@ -9157,6 +9173,7 @@ function func_calculate_euler_fokker_genus
 			?efg_calc_array[5] := ?efg_generators[1]*?efg_generators[2]
 			?efg_calc_array[6] := ?efg_generators[0]*?efg_generators[1]*?efg_generators[2]
 		case 4
+			$efg_number_of_pitch_classes := 15
 			?efg_calc_array[0] := ?efg_generators[0]
 			?efg_calc_array[1] := ?efg_generators[1]
 			?efg_calc_array[2] := ?efg_generators[2]
@@ -9173,6 +9190,7 @@ function func_calculate_euler_fokker_genus
 			?efg_calc_array[13] := ?efg_generators[1]*?efg_generators[2]*?efg_generators[3]
 			?efg_calc_array[14] := ?efg_generators[0]*?efg_generators[1]*?efg_generators[2]*?efg_generators[3]
 		case 5
+			$efg_number_of_pitch_classes := 26
 			?efg_calc_array[0] := ?efg_generators[0]
 			?efg_calc_array[1] := ?efg_generators[1]
 			?efg_calc_array[2] := ?efg_generators[2]
@@ -9200,6 +9218,7 @@ function func_calculate_euler_fokker_genus
 			?efg_calc_array[24] := ?efg_generators[0]*?efg_generators[2]*?efg_generators[3]*?efg_generators[4]
 			?efg_calc_array[25] := ?efg_generators[0]*?efg_generators[1]*?efg_generators[2]*?efg_generators[3]*?efg_generators[4]
 	end select
+
 	{Transpose to the same octave (or other interval of equivalence):}
 	{
 		~efg_interval_of_equivalence_ratio := 2.0
@@ -9215,6 +9234,13 @@ function func_calculate_euler_fokker_genus
 		end while
 	}
 
+	{convert to cents}
+	$counter1 := 0
+	while ($counter1 < $efg_number_of_pitch_classes)
+		?efg_calc_array[$counter1] := 1200.0*log(?efg_calc_array[$counter1])/log(2.0)
+		inc($counter1)
+	end while
+
 	{octave reduction:}
 	    select ($switch__reduce_by_octave)
 	   		case 1
@@ -9222,9 +9248,10 @@ function func_calculate_euler_fokker_genus
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    ~efg_interval_of_equivalence_ratio := ~reduction_interval
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
-			while ($counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios)
+			while ($counter1 < num_elements(?efg_calc_array))
 				select($switch__reduction_mode)
 					case 0
 						while ( ?efg_calc_array[$counter1] >= ~interval_of_equivalence )
@@ -9249,12 +9276,14 @@ function func_calculate_euler_fokker_genus
 				inc($counter1)
 			end while
 	   end if
+	
 
 
 
 
 
 	{sort(?efg_calc_array,1)} {od najwiekszej do najmniejszej wartosci}
+	{
 	$counter1 := 1
 	while ( $counter1 < num_elements(?efg_calc_array) )
 		if (?efg_calc_array[$counter1] > ?efg_calc_array[$counter1 - 1])
@@ -9264,22 +9293,42 @@ function func_calculate_euler_fokker_genus
 		end if
 		inc($counter1)
 	end while
+	}
+
+	{bubble sort}
+		$counter2 := 0
+		while ($counter2 < $number_of_pitch_classes)
+			$counter1 := 1
+			while ($counter1 + $counter2 < $number_of_pitch_classes) 
+				if (?tuning_table[$counter1] < ?tuning_table[$counter1 -1])
+					~__f__ := ?tuning_table[$counter1]
+					?tuning_table[$counter1] := ?tuning_table[$counter1 - 1]
+					?tuning_table[$counter1 - 1] := ~__f__
+				end if
+				inc($counter1)
+			end while
+			inc($counter2)
+		end while
 
 	{find the number of steps assuming that there is at least one 0.0 element in the ?efg_calc_array}
+	{
 		$counter1 := 0
 		while ($counter1 < num_elements(?efg_calc_array))
 			if (?efg_calc_array[$counter1] = 0.0)
-				$efg_number_of_pitch_classes := $counter1 {index of the first zero value in the ?efg_calc_array +1}
+				$efg_number_of_pitch_classes := $counter1
 				$counter1 := 1500190
 			else
 				inc($counter1)
 			end if
 		end while
+	}
+
 {call debug}
+
 	{set ?tuning_table}
-		$counter1 := 1
+		$counter1 := 0
 		while ($counter1 < $efg_number_of_pitch_classes)
-			?tuning_table[$counter1+0] := 1200.0*log(?efg_calc_array[$efg_number_of_pitch_classes-$counter1])/log(2.0)
+			?tuning_table[$counter1+0] := ?efg_calc_array[$counter1]
 			inc($counter1)
 		end while
 		if ($efg_number_of_pitch_classes = 1)
@@ -9288,7 +9337,7 @@ function func_calculate_euler_fokker_genus
 		end if
 
 	{interval of equivalence in cents}
-		?tuning_table[$efg_number_of_pitch_classes+1] := 1200.0*log(~efg_interval_of_equivalence_ratio)/log(2.0)
+		?tuning_table[$efg_number_of_pitch_classes+1] := ~interval_of_equivalence
 		$number_of_pitch_classes := $efg_number_of_pitch_classes
 end function
 
@@ -9428,7 +9477,7 @@ $cps_k__num_of_elem_in_combination := 2}
 	    end select
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
-			while ($counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios)
+			while ($counter1 < $cps_combi_count)
 				select($switch__reduction_mode)
 					case 0
 						while ( ?cps_tuning_table_cents[$counter1] >= ~interval_of_equivalence )
@@ -15889,9 +15938,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                          v 1 . 0  3  7                                       +}
+{+                                          v 1 . 0  3  9                                       +}
 {+                                                                                              +}
-{+                               last edit date: 2024-07-21-11-11                               +}
+{+                               last edit date: 2024-07-27-11-13                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
