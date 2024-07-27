@@ -13,7 +13,8 @@ Copy the script code and past it inside Kontakt instrument script editor. Once l
 ### Troubleshooting
 Unfortunately Kontakt has 5 script slots and sometimes all of them are taken by default. If this is the case, you might have to delete one of the current scripts or redo the instrument whatsover.
 ### Known issues
-Euler-Fokker genera module is under development.
+1. The interval of equivalence can be set to any ratio, including values less than or equal to 1.0 which causes errors in the calculations.
+1. Euler-Fokker genera module is under development.
 
 ## Why another microtuning script?
 I wanted to create a tuning script that would allow me to easily automate any microtonal changes procedurally inside my favourite octave and non-octave tuning systems.
