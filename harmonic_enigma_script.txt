@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 9 "
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 9 1"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-07-27-11-13 "
+		@last_edit_date :=	 	" 2024-08-02-18-59 "
 
 	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {Dowland's Lute Tuning}
 
@@ -121,11 +121,11 @@ on init
 
 		declare polyphonic $new_id
 		declare polyphonic $steps_from_reference_note {number of steps from $concert_pitch_midi_key}
-		declare ~cents_from_a440 {interval [cents] from A=440.0Hz to the desired pitch}
+		declare ~cents_from_a440 := 0.0 {interval [cents] from A=440.0Hz to the desired pitch}
 		declare ~event_note_pitch_hz := 440.0
-		declare ~display_frequency_of_the_note_relto69a440 {displayed in $label__last_freq}
+		declare ~display_frequency_of_the_note_relto69a440 := 0.0 {displayed in $label__last_freq}
 		declare ?active_notes_hertz_table[128] := (440.0)
-		declare ~octave_stretching_input_frequency_relto69a440
+		declare ~octave_stretching_input_frequency_relto69a440 := 0.0
 		declare ~display_detune_value_in_cents := 0.0 {displayed in $label__last_detune}
 		declare polyphonic $detune_amount_milicents := 0 {detune amount in milicents - cent/1000. 1200000 = 1 octave}
 		declare $display_value_of_the_most_recent_event_note {last $EVENT_NOTE outside of the on note callback}
@@ -2283,6 +2283,45 @@ on init
 			set_control_par(get_ui_id($panel_eulerfokkergenera),$CONTROL_PAR_PARENT_PANEL,get_ui_id($gui_panel__scalesmithing_tab))
 			set_control_par(get_ui_id ($panel_eulerfokkergenera),$CONTROL_PAR_POS_X,103)
 			set_control_par(get_ui_id ($panel_eulerfokkergenera),$CONTROL_PAR_POS_Y,100)
+
+			declare ui_panel $panel__efg_reduce_duplicates
+				set_control_par(get_ui_id($panel__efg_reduce_duplicates),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id($panel__efg_reduce_duplicates),$CONTROL_PAR_POS_X, 448 - 128 - 4 - 46)
+				set_control_par(get_ui_id($panel__efg_reduce_duplicates),$CONTROL_PAR_POS_Y, 0)
+
+			declare ui_label $label__efg_remove_step_duplicates (1,1)
+				set_text ($label__efg_remove_step_duplicates, "remove step duplicates:")
+				set_control_par(get_ui_id ($label__efg_remove_step_duplicates),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__efg_reduce_duplicates))
+				set_control_par(get_ui_id($label__efg_remove_step_duplicates),$CONTROL_PAR_POS_X, 0)
+				set_control_par(get_ui_id($label__efg_remove_step_duplicates),$CONTROL_PAR_POS_Y, 0)
+	   			set_control_par(get_ui_id($label__efg_remove_step_duplicates), $CONTROL_PAR_WIDTH, 128)
+	    		set_control_par(get_ui_id($label__efg_remove_step_duplicates), $CONTROL_PAR_HEIGHT, 18)
+				set_control_par(get_ui_id($label__efg_remove_step_duplicates), $CONTROL_PAR_TEXT_ALIGNMENT, 1)
+				set_control_par_str(get_ui_id ($label__efg_remove_step_duplicates),$CONTROL_PAR_HELP, "Removes the steps with identical (duplicate) pitches.")
+
+			declare ui_switch $efg_remove_step_duplicates
+				set_control_par_str(get_ui_id($efg_remove_step_duplicates),$CONTROL_PAR_AUTOMATION_NAME,"remove_step_duplicates")
+				$efg_remove_step_duplicates := 0
+				make_persistent($efg_remove_step_duplicates)
+				read_persistent_var($efg_remove_step_duplicates)
+				set_control_par(get_ui_id ($efg_remove_step_duplicates),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel__efg_reduce_duplicates))
+				set_control_par(get_ui_id($efg_remove_step_duplicates),$CONTROL_PAR_POS_X, 128 + 4)
+				set_control_par(get_ui_id($efg_remove_step_duplicates),$CONTROL_PAR_POS_Y, 0)
+	   			set_control_par(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_WIDTH, 46)
+	    		set_control_par(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_HEIGHT, 18)
+				set_control_par(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_TEXT_ALIGNMENT, 1)
+				set_control_par_str(get_ui_id ($efg_remove_step_duplicates),$CONTROL_PAR_HELP, "Removes the steps with identical (duplicate) pitches.")
+				select ($efg_remove_step_duplicates)
+					case 1
+						set_control_par_str(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_TEXT, "[ ON ]")
+					case 0
+						set_control_par_str(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_TEXT, "[ off ]")
+				end select
+
+		declare ui_panel $panel_eulerfokkergenera_generators
+			set_control_par(get_ui_id($panel_eulerfokkergenera_generators),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+			set_control_par(get_ui_id ($panel_eulerfokkergenera_generators),$CONTROL_PAR_POS_X,0)
+			set_control_par(get_ui_id ($panel_eulerfokkergenera_generators),$CONTROL_PAR_POS_Y,22)
 			declare $panel__euler_fokker_genera_visibility := 0
 			make_persistent($panel__euler_fokker_genera_visibility)
 			read_persistent_var($panel__euler_fokker_genera_visibility)
@@ -2290,7 +2329,7 @@ on init
 			declare ui_label $label_efg (1,1)
 				set_text ($label_efg,"Euler-Fokker genus generators:")
 				set_control_par(get_ui_id($label_efg),$CONTROL_PAR_WIDTH,448)
-				set_control_par(get_ui_id ($label_efg),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id ($label_efg),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera_generators))
 				set_control_par(get_ui_id ($label_efg),$CONTROL_PAR_POS_X,0)
 				set_control_par(get_ui_id ($label_efg),$CONTROL_PAR_POS_Y,0)
 
@@ -2309,6 +2348,7 @@ on init
 			declare ~efg_liczba_w_pamieci := 0.0
 			declare $efg_table_column_width := 90
 			declare $efg_value_width := 60
+			declare $efg_dynamic_generator_index := 0
 
 			$counter1:= 0
 
@@ -2317,7 +2357,7 @@ on init
 				set_knob_defval($efg_generator_1, 1)
 				make_persistent($efg_generator_1)
 				read_persistent_var($efg_generator_1)
-				set_control_par(get_ui_id($efg_generator_1),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id($efg_generator_1),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera_generators))
 				set_control_par(get_ui_id($efg_generator_1),$CONTROL_PAR_WIDTH,$efg_value_width)
 				set_control_par(get_ui_id ($efg_generator_1),$CONTROL_PAR_POS_X,$efg_table_column_width*$counter1)
 				set_control_par(get_ui_id ($efg_generator_1),$CONTROL_PAR_POS_Y,20)
@@ -2334,7 +2374,7 @@ on init
 				set_knob_defval($efg_generator_2, 1)
 				make_persistent($efg_generator_2)
 				read_persistent_var($efg_generator_2)
-				set_control_par(get_ui_id($efg_generator_2),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id($efg_generator_2),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera_generators))
 				set_control_par(get_ui_id($efg_generator_2),$CONTROL_PAR_WIDTH,$efg_value_width)
 				set_control_par(get_ui_id ($efg_generator_2),$CONTROL_PAR_POS_X,$efg_table_column_width*$counter1)
 				set_control_par(get_ui_id ($efg_generator_2),$CONTROL_PAR_POS_Y,20)
@@ -2351,7 +2391,7 @@ on init
 				set_knob_defval($efg_generator_3, 3)
 				make_persistent($efg_generator_3)
 				read_persistent_var($efg_generator_3)
-				set_control_par(get_ui_id($efg_generator_3),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id($efg_generator_3),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera_generators))
 				set_control_par(get_ui_id($efg_generator_3),$CONTROL_PAR_WIDTH,$efg_value_width)
 				set_control_par(get_ui_id ($efg_generator_3),$CONTROL_PAR_POS_X,$efg_table_column_width*$counter1)
 				set_control_par(get_ui_id ($efg_generator_3),$CONTROL_PAR_POS_Y,20)
@@ -2368,7 +2408,7 @@ on init
 				set_knob_defval($efg_generator_4, 0)
 				make_persistent($efg_generator_4)
 				read_persistent_var($efg_generator_4)
-				set_control_par(get_ui_id($efg_generator_4),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id($efg_generator_4),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera_generators))
 				set_control_par(get_ui_id($efg_generator_4),$CONTROL_PAR_WIDTH,$efg_value_width)
 				set_control_par(get_ui_id ($efg_generator_4),$CONTROL_PAR_POS_X,$efg_table_column_width*$counter1)
 				set_control_par(get_ui_id ($efg_generator_4),$CONTROL_PAR_POS_Y,20)
@@ -2385,7 +2425,7 @@ on init
 				set_knob_defval($efg_generator_5, 0)
 				make_persistent($efg_generator_5)
 				read_persistent_var($efg_generator_5)
-				set_control_par(get_ui_id($efg_generator_5),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera))
+				set_control_par(get_ui_id($efg_generator_5),$CONTROL_PAR_PARENT_PANEL,get_ui_id($panel_eulerfokkergenera_generators))
 				set_control_par(get_ui_id($efg_generator_5),$CONTROL_PAR_WIDTH,$efg_value_width)
 				set_control_par(get_ui_id ($efg_generator_5),$CONTROL_PAR_POS_X,$efg_table_column_width*$counter1)
 				set_control_par(get_ui_id ($efg_generator_5),$CONTROL_PAR_POS_Y,20)
@@ -4598,56 +4638,56 @@ on init
 	{epimoric modulation module:}
 
 		{declare epimoric module core variables:}
-		declare $epimoric_module_is_on
+		declare $epimoric_module_is_on := 0
 			make_persistent($epimoric_module_is_on)
 
 
 
-		declare $epimoric_module_A__ouroboros_transposition {in "Epimoric Music" it was called harmoniaOdwracalna. It circulates between two states.}
+		declare $epimoric_module_A__ouroboros_transposition := 0 {in "Epimoric Music" it was called harmoniaOdwracalna. It circulates between two states.}
 			make_persistent($epimoric_module_A__ouroboros_transposition)
-		declare $epimoric_module_A__dying_battery
+		declare $epimoric_module_A__dying_battery := 0
 			make_persistent($epimoric_module_A__dying_battery)
-		declare $epimoric_module_A__arg1
+		declare $epimoric_module_A__arg1 := 0
 			make_persistent($epimoric_module_A__arg1)
-		declare $epimoric_module_A__arg2
+		declare $epimoric_module_A__arg2 := 0
 			make_persistent($epimoric_module_A__arg2)
-		declare $epimoric_module_A__xtimes_backward
+		declare $epimoric_module_A__xtimes_backward := 0
 			make_persistent($epimoric_module_A__xtimes_backward)
-		declare $epimoric_module_A__xtimes_forward
+		declare $epimoric_module_A__xtimes_forward := 0
 			make_persistent($epimoric_module_A__xtimes_forward)
-		declare $epimoric_module_A__polish_mirror {when counting intervals from the top of the scale use the same intervals as from the bottom}
+		declare $epimoric_module_A__polish_mirror := 0 {when counting intervals from the top of the scale use the same intervals as from the bottom}
 			make_persistent($epimoric_module_A__polish_mirror)
 		
 
 
-		declare $epimoric_module_B__ouroboros_transposition
+		declare $epimoric_module_B__ouroboros_transposition := 0
 			make_persistent($epimoric_module_B__ouroboros_transposition)
-		declare $epimoric_module_B__dying_battery
+		declare $epimoric_module_B__dying_battery := 0
 			make_persistent($epimoric_module_B__dying_battery)
-		declare $epimoric_module_B__arg1
+		declare $epimoric_module_B__arg1 := 0
 			make_persistent($epimoric_module_B__arg1)
-		declare $epimoric_module_B__arg2
+		declare $epimoric_module_B__arg2 := 0
 			make_persistent($epimoric_module_B__arg2)
-		declare $epimoric_module_B__xtimes_backward
+		declare $epimoric_module_B__xtimes_backward := 0
 			make_persistent($epimoric_module_B__xtimes_backward)
-		declare $epimoric_module_B__xtimes_forward
+		declare $epimoric_module_B__xtimes_forward := 0
 			make_persistent($epimoric_module_B__xtimes_forward)
-		declare $epimoric_module_B__polish_mirror
+		declare $epimoric_module_B__polish_mirror := 0
 			make_persistent($epimoric_module_B__polish_mirror)
 
-		declare $epimoric_module_C__ouroboros_transposition
+		declare $epimoric_module_C__ouroboros_transposition := 0
 			make_persistent($epimoric_module_C__ouroboros_transposition)
-		declare $epimoric_module_C__dying_battery
+		declare $epimoric_module_C__dying_battery := 0
 			make_persistent($epimoric_module_C__dying_battery)
-		declare $epimoric_module_C__arg1
+		declare $epimoric_module_C__arg1 := 0
 			make_persistent($epimoric_module_C__arg1)
-		declare $epimoric_module_C__arg2
+		declare $epimoric_module_C__arg2 := 0
 			make_persistent($epimoric_module_C__arg2)
-		declare $epimoric_module_C__xtimes_backward
+		declare $epimoric_module_C__xtimes_backward := 0
 			make_persistent($epimoric_module_C__xtimes_backward)
-		declare $epimoric_module_C__xtimes_forward
+		declare $epimoric_module_C__xtimes_forward := 0
 			make_persistent($epimoric_module_C__xtimes_forward)
-		declare $epimoric_module_C__polish_mirror
+		declare $epimoric_module_C__polish_mirror := 0
 			make_persistent($epimoric_module_C__polish_mirror)
 
 		{init default state of the epimoric module:}
@@ -4672,7 +4712,7 @@ on init
 
 			$epimoric_module_C__ouroboros_transposition := 1
 			$epimoric_module_C__dying_battery := 0
-			$epimoric_module_C__arg1 :=0
+			$epimoric_module_C__arg1 := 0
 			$epimoric_module_C__arg2 := 0
 			$epimoric_module_C__xtimes_backward := 0
 			$epimoric_module_C__xtimes_forward := 0
@@ -4681,67 +4721,67 @@ on init
 
 		{declare variables need for pure functionality of the func_epimoric_transposition:}
 
-		declare $eF__gradus1
-		declare $eF__gradus2
-		declare $eF__xtimes
-		declare $eF__ouroboros
-		declare $eF__dying_battery
-		declare $eF__polish_mirror
-		declare $eF__inlet_mirror_flag
-		declare $eF__tuningContext_num_of_pitch_classes
-		declare ~eF__tuningContext_interval_of_equivalence
-		declare ~eF__tuningContext_gradus1_above_root
-		declare ~eF__tuningContext_gradus2_above_root
-		declare ~eF__tuningContext_gradus1_below_root
-		declare ~eF__tuningContext_gradus2_below_root
+		declare $eF__gradus1 := 0
+		declare $eF__gradus2 := 0
+		declare $eF__xtimes := 0
+		declare $eF__ouroboros := 0
+		declare $eF__dying_battery := 0
+		declare $eF__polish_mirror := 0
+		declare $eF__inlet_mirror_flag := 0
+		declare $eF__tuningContext_num_of_pitch_classes := 0
+		declare ~eF__tuningContext_interval_of_equivalence := 0.0
+		declare ~eF__tuningContext_gradus1_above_root := 0.0
+		declare ~eF__tuningContext_gradus2_above_root := 0.0
+		declare ~eF__tuningContext_gradus1_below_root := 0.0
+		declare ~eF__tuningContext_gradus2_below_root := 0.0
 
-		declare $eF__odd_step_compensation
-		declare ~eF__odd_root_transposition_cents
-		declare $eF__even_step_compensation
-		declare ~eF__even_root_transposition_cents
+		declare $eF__odd_step_compensation := 0
+		declare ~eF__odd_root_transposition_cents := 0.0
+		declare $eF__even_step_compensation := 0
+		declare ~eF__even_root_transposition_cents := 0.0
 
-		declare $eF__step_compensation
-		declare ~eF__root_transposition_cents
-		declare $eF__outlet_mirror_flag
+		declare $eF__step_compensation := 0
+		declare ~eF__root_transposition_cents := 0.0
+		declare $eF__outlet_mirror_flag := 0
 
 		{declare epimoric module helper variables:}
 
-		declare ~epimoric_module__transposition_cents
-		declare $epimoric_module__step_compensation
-		declare $epimoric_module__mirror_flag
+		declare ~epimoric_module__transposition_cents := 0.0
+		declare $epimoric_module__step_compensation := 0
+		declare $epimoric_module__mirror_flag := 0
 
-		declare $epimoric_module_A__xtimes
+		declare $epimoric_module_A__xtimes := 0
 		declare $epimoric_module_A___mirror_flag {output scale from this module is flipped upside down}
 			$epimoric_module_A___mirror_flag := 0 {LEGACY}
 		declare $epimoric_module_A___inlet_inv_scale_flag
 			$epimoric_module_A___inlet_inv_scale_flag := 0
-		declare $epimoric_module_A___outlet_inv_scale_flag
-		declare ~epimoric_module_A___even_root_transposition_cents
-		declare $epimoric_module_A___even_step_compensation
-		declare ~epimoric_module_A___odd_root_transposition_cents
-		declare $epimoric_module_A___odd_step_compensation
-		declare ~epimoric_module_A___root_transposition_cents
-		declare $epimoric_module_A___step_compensation
+		declare $epimoric_module_A___outlet_inv_scale_flag := 0
+		declare ~epimoric_module_A___even_root_transposition_cents := 0.0
+		declare $epimoric_module_A___even_step_compensation := 0
+		declare ~epimoric_module_A___odd_root_transposition_cents := 0.0
+		declare $epimoric_module_A___odd_step_compensation := 0
+		declare ~epimoric_module_A___root_transposition_cents := 0.0
+		declare $epimoric_module_A___step_compensation := 0
 
-		declare $epimoric_module_B__xtimes
-		declare $epimoric_module_B___inlet_inv_scale_flag
-		declare $epimoric_module_B___outlet_inv_scale_flag
-		declare ~epimoric_module_B___even_root_transposition_cents
-		declare $epimoric_module_B___even_step_compensation
-		declare ~epimoric_module_B___odd_root_transposition_cents
-		declare $epimoric_module_B___odd_step_compensation
-		declare ~epimoric_module_B___root_transposition_cents
-		declare $epimoric_module_B___step_compensation
+		declare $epimoric_module_B__xtimes := 0
+		declare $epimoric_module_B___inlet_inv_scale_flag := 0
+		declare $epimoric_module_B___outlet_inv_scale_flag := 0
+		declare ~epimoric_module_B___even_root_transposition_cents := 0.0
+		declare $epimoric_module_B___even_step_compensation := 0
+		declare ~epimoric_module_B___odd_root_transposition_cents := 0.0
+		declare $epimoric_module_B___odd_step_compensation := 0
+		declare ~epimoric_module_B___root_transposition_cents := 0.0
+		declare $epimoric_module_B___step_compensation := 0
 
-		declare $epimoric_module_C__xtimes
-		declare $epimoric_module_C___inlet_inv_scale_flag
-		declare $epimoric_module_C___outlet_inv_scale_flag
-		declare ~epimoric_module_C___even_root_transposition_cents
-		declare $epimoric_module_C___even_step_compensation
-		declare ~epimoric_module_C___odd_root_transposition_cents
-		declare $epimoric_module_C___odd_step_compensation
-		declare ~epimoric_module_C___root_transposition_cents
-		declare $epimoric_module_C___step_compensation
+		declare $epimoric_module_C__xtimes := 0
+		declare $epimoric_module_C___inlet_inv_scale_flag := 0
+		declare $epimoric_module_C___outlet_inv_scale_flag := 0
+		declare ~epimoric_module_C___even_root_transposition_cents := 0.0
+		declare $epimoric_module_C___even_step_compensation := 0
+		declare ~epimoric_module_C___odd_root_transposition_cents := 0.0
+		declare $epimoric_module_C___odd_step_compensation := 0
+		declare ~epimoric_module_C___root_transposition_cents := 0.0
+		declare $epimoric_module_C___step_compensation := 0
 
 
 
@@ -6753,6 +6793,7 @@ on init
 				%ui_id_rpn_krosownica[ 428  ]:= get_ui_id($dummy_knob_detune_value_cents)
 				%ui_id_rpn_krosownica[ 429  ]:= get_ui_id($dummy_knob_detune_value_cent_percentage)
 				%ui_id_rpn_krosownica[ 430  ]:= get_ui_id($switch__ksp_mode_0changetune_1eventpartune)
+				%ui_id_rpn_krosownica[ 431  ]:= get_ui_id($efg_remove_step_duplicates)
 
 			end if
 end on
@@ -7245,7 +7286,7 @@ function recalculate_epimoric_module()
 				~eF__tuningContext_interval_of_equivalence := ~interval_of_equivalence
 				~eF__tuningContext_gradus1_above_root := ?tuning_table[$epimoric_module_A__arg1]
 				~eF__tuningContext_gradus2_above_root := ?tuning_table[$epimoric_module_A__arg2]
-				~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_A__arg1]
+				~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[abs($number_of_pitch_classes-$epimoric_module_A__arg1)]
 				~eF__tuningContext_gradus2_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_A__arg2]
 		call func_epimoric_transposition()
 
@@ -9112,29 +9153,37 @@ end function
 
 
 function func_calculate_euler_fokker_genus
-
+ 	$efg_degree := 0
 	$counter1 := 0
 	if ($efg_generator_1 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_1)
 		inc($efg_degree)
+		inc($counter1)
 	end if
 	if ($efg_generator_2 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_2)
 		inc($efg_degree)
+		inc($counter1)
 	end if
 	if ($efg_generator_3 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_3)
 		inc($efg_degree)
+		inc($counter1)
 	end if
 	if ($efg_generator_4 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_4)
 		inc($efg_degree)
+		inc($counter1)
 	end if
 	if ($efg_generator_5 > 0)
 		?efg_generators[$counter1] := int_to_real($efg_generator_5)
 		inc($efg_degree)
+		inc($counter1)
 	end if
 
+	if ($efg_degree = 0)
+		$number_of_pitch_classes := 1
+	end if
 	{sort(?efg_generators,1)}
 	{
 	$counter1 := 1
@@ -9219,6 +9268,15 @@ function func_calculate_euler_fokker_genus
 			?efg_calc_array[25] := ?efg_generators[0]*?efg_generators[1]*?efg_generators[2]*?efg_generators[3]*?efg_generators[4]
 	end select
 
+
+	{development, debug}
+	if ( 1 = 0 )
+		?efg_calc_array[0] := 2.0
+		?efg_calc_array[1] := 6.0
+		?efg_calc_array[2] := 10.0
+		$efg_number_of_pitch_classes := 3
+	end if
+
 	{Transpose to the same octave (or other interval of equivalence):}
 	{
 		~efg_interval_of_equivalence_ratio := 2.0
@@ -9241,41 +9299,54 @@ function func_calculate_euler_fokker_genus
 		inc($counter1)
 	end while
 
-	{octave reduction:}
+
+	{assign efg_calc_array to the ?tuning_table array}
+		?tuning_table[0] := 0.0
+		$number_of_pitch_classes := 1
+		$counter1 := 0
+		while ($counter1 < $efg_number_of_pitch_classes)
+			?tuning_table[$counter1+0] := ?efg_calc_array[$counter1]
+			inc($counter1)
+		end while
+		$number_of_pitch_classes := $efg_number_of_pitch_classes
+
+
+    {octave reduction:}
+
 	    select ($switch__reduce_by_octave)
 	   		case 1
 	   			~reduction_interval := 1200.0
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
-	    ~efg_interval_of_equivalence_ratio := ~reduction_interval
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
-			while ($counter1 < num_elements(?efg_calc_array))
+			while ($counter1 < $number_of_pitch_classes)
 				select($switch__reduction_mode)
 					case 0
-						while ( ?efg_calc_array[$counter1] >= ~interval_of_equivalence )
-							?efg_calc_array[$counter1] := ?efg_calc_array[$counter1] - ~reduction_interval
+						while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+							?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
 						end while
-						while (?efg_calc_array[$counter1] < 0.0)
-							?efg_calc_array[$counter1] := ?efg_calc_array[$counter1] + ~reduction_interval
+						while (?tuning_table[$counter1] < 0.0)
+							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?efg_calc_array[$counter1] > ~interval_of_equivalence) or (?efg_calc_array[$counter1] < 0.0) )
-							if (?efg_calc_array[$counter1] < 0.0)
-								?efg_calc_array[$counter1] := -1.0 * ?efg_calc_array[$counter1]
+						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+							if (?tuning_table[$counter1] < 0.0)
+								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
-							if (?efg_calc_array[$counter1] = ~reduction_interval)
-								?efg_calc_array[$counter1] := 0.0
+							if (?tuning_table[$counter1] = ~reduction_interval)
+								?tuning_table[$counter1] := 0.0
 							end if
-							if ( ?efg_calc_array[$counter1] >= ~interval_of_equivalence )
-								?efg_calc_array[$counter1] := ~reduction_interval - (?efg_calc_array[$counter1] - ~reduction_interval)
+							if ( ?tuning_table[$counter1] > ~interval_of_equivalence )
+								?tuning_table[$counter1] := ~reduction_interval - (?tuning_table[$counter1] - ~reduction_interval)
 							end if
 						end while
 				end select
 				inc($counter1)
 			end while
-	   end if
+        end if
+
 	
 
 
@@ -9295,6 +9366,7 @@ function func_calculate_euler_fokker_genus
 	end while
 	}
 
+
 	{bubble sort}
 		$counter2 := 0
 		while ($counter2 < $number_of_pitch_classes)
@@ -9309,6 +9381,27 @@ function func_calculate_euler_fokker_genus
 			end while
 			inc($counter2)
 		end while
+
+		{ under dev. - remove duplicate steps}
+		if ( 1 = 0 )
+			if ($efg_remove_step_duplicates = 1)
+				$counter1 := 0
+				while ($counter1 < $number_of_pitch_classes - 1)
+					if (1=1)
+					{
+					if (?tuning_table[$counter1] > ?tuning_table[$counter1 + 1] - 1000000.0 and ?tuning_table[$counter1] < ?tuning_table[$counter1 + 1]  + 1000000.0)
+					}
+						$counter2 := $counter1 + 1
+						while ($counter2 < $number_of_pitch_classes)
+							?tuning_table[$counter2] := ?tuning_table[$counter2 + 1]
+							inc($counter2)
+						end while
+						dec($number_of_pitch_classes)
+					end if
+					inc($counter1)
+				end while
+			end if
+		end if
 
 	{find the number of steps assuming that there is at least one 0.0 element in the ?efg_calc_array}
 	{
@@ -9325,20 +9418,19 @@ function func_calculate_euler_fokker_genus
 
 {call debug}
 
-	{set ?tuning_table}
-		$counter1 := 0
-		while ($counter1 < $efg_number_of_pitch_classes)
-			?tuning_table[$counter1+0] := ?efg_calc_array[$counter1]
-			inc($counter1)
-		end while
-		if ($efg_number_of_pitch_classes = 1)
-			$efg_number_of_pitch_classes := 2
-			?tuning_table[1] := 1200.0*log(?efg_calc_array[0])/log(2.0)
-		end if
+
 
 	{interval of equivalence in cents}
-		?tuning_table[$efg_number_of_pitch_classes+1] := ~interval_of_equivalence
-		$number_of_pitch_classes := $efg_number_of_pitch_classes
+		?tuning_table[$number_of_pitch_classes+1] := ~interval_of_equivalence
+
+		{$number_of_pitch_classes := $efg_number_of_pitch_classes}
+
+		{temporary bypass of the above code}
+		if (1 = 0)
+			$number_of_pitch_classes := 1
+			?tuning_table[0] := 0.0
+			~interval_of_equivalence := 100.0
+		end if
 end function
 
 
@@ -12624,7 +12716,15 @@ function onuicontrol__switch__quantizebeatstobpm()
 			set_control_par_str(get_ui_id($switch__quantizebeatstobpm), $CONTROL_PAR_TEXT, "[ ON ]")
 	end select
 end function
-
+function onuicontrol__efg_remove_step_duplicates()
+		select ($efg_remove_step_duplicates)
+			case 1
+				set_control_par_str(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_TEXT, "[ ON ]")
+			case 0
+				set_control_par_str(get_ui_id($efg_remove_step_duplicates), $CONTROL_PAR_TEXT, "[off]")
+		end select
+		call recalculate_tuning
+end function
 
 
 
@@ -13547,6 +13647,8 @@ function jm_rpn_receive()
 			}
 		case 430
 			call onuicontrol__switch__ksp_mode_0changetune_1eventpartune
+		case 431
+			call onuicontrol__efg_remove_step_duplicates
 	end select
 end function
 
@@ -15648,6 +15750,12 @@ on ui_control($dummy_knob_detune_value_cent_percentage)
 	call jm_rpn_send
 end on
 
+on ui_control($efg_remove_step_duplicates)
+	call onuicontrol__efg_remove_step_duplicates
+	$rpn_relative_port_index := 431
+	call jm_rpn_send
+end on
+
 on rpn
 	if ($switch__rpn_connect = 1)
 		{message($RPN_ADDRESS - $rpn_connect__channel_num)}
@@ -15938,9 +16046,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                          v 1 . 0  3  9                                       +}
+{+                                          v 1 . 0  3  9  1                                    +}
 {+                                                                                              +}
-{+                               last edit date: 2024-07-27-11-13                               +}
+{+                               last edit date: 2024-08-02-18-59                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
