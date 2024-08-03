@@ -1,16 +1,16 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 3 9 1"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-08-02-18-59 "
+		@last_edit_date :=	 	" 2024-08-03-12-32 "
 
 	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {Dowland's Lute Tuning}
 
-	declare ~concert_pitch_freq := 261.625        {Default concert pitch in Hertz}
+	declare ~concert_pitch_freq := 261.625        {Default concert pitch in Hertz. Concert pitch can not be automated!}
 
-	declare ~master_detune := 0.0 {global pitch shift in cents}
+	declare ~master_detune := 0.0 {apply global pitch shift in cents}
 
 	declare $concert_pitch_midi_key := 60 {MIDI key that is tuned to ~concert_pitch  ("the tonic")}
 
@@ -20,9 +20,9 @@ on init
 
 	-------------------------------------------}
 
-{
-	disable_logging($NI_LOG_WARNING)
-}
+	if (1 = 1)
+		disable_logging($NI_LOG_WARNING)
+	end if
 
 	set_script_title(" x Harmonic Enigma x ")
 	message("")
@@ -1122,7 +1122,7 @@ on init
 			add_menu_item ($paradigms_menu, "Combination Product Set",1002)
 			add_menu_item ($paradigms_menu, "Equal-step tuning",1111)
 			add_menu_item ($paradigms_menu, "Epimoric",1000)
-			add_menu_item ($paradigms_menu, "Euler-Fokker genera (this module has been faulty)",1001)
+			add_menu_item ($paradigms_menu, "Euler-Fokker genera",1001)
 			add_menu_item ($paradigms_menu, "Cent input",801) {TODO}
 			add_menu_item ($paradigms_menu, "Hertz input",1935) {TODO}
 			add_menu_item ($paradigms_menu, "Temperament Units (John Brombaugh's TU notation)",720)
@@ -2352,7 +2352,7 @@ on init
 
 			$counter1:= 0
 
-			declare ui_knob $efg_generator_1(0,31,1)
+			declare ui_knob $efg_generator_1(1,128,1)
 				$efg_generator_1 := 1
 				set_knob_defval($efg_generator_1, 1)
 				make_persistent($efg_generator_1)
@@ -2369,7 +2369,7 @@ on init
 					?efg_generators[0] := int_to_real($efg_generator_1)
 				end if
 
-			declare ui_knob $efg_generator_2(0,31,1)
+			declare ui_knob $efg_generator_2(0,127,1)
 				$efg_generator_2 := 1
 				set_knob_defval($efg_generator_2, 1)
 				make_persistent($efg_generator_2)
@@ -2386,7 +2386,7 @@ on init
 					?efg_generators[1] := int_to_real($efg_generator_2)
 				end if
 
-			declare ui_knob $efg_generator_3(0,31,1)
+			declare ui_knob $efg_generator_3(0,127,1)
 				$efg_generator_3 := 3
 				set_knob_defval($efg_generator_3, 3)
 				make_persistent($efg_generator_3)
@@ -2403,7 +2403,7 @@ on init
 					?efg_generators[2] := int_to_real($efg_generator_3)
 				end if
 
-			declare ui_knob $efg_generator_4(0,31,1)
+			declare ui_knob $efg_generator_4(0,127,1)
 				$efg_generator_4 := 0
 				set_knob_defval($efg_generator_4, 0)
 				make_persistent($efg_generator_4)
@@ -2420,7 +2420,7 @@ on init
 					?efg_generators[3] := int_to_real($efg_generator_4)
 				end if
 
-			declare ui_knob $efg_generator_5(0,31,1)
+			declare ui_knob $efg_generator_5(0,127,1)
 				$efg_generator_5 := 0
 				set_knob_defval($efg_generator_5, 0)
 				make_persistent($efg_generator_5)
@@ -9299,7 +9299,6 @@ function func_calculate_euler_fokker_genus
 		inc($counter1)
 	end while
 
-
 	{assign efg_calc_array to the ?tuning_table array}
 		?tuning_table[0] := 0.0
 		$number_of_pitch_classes := 1
@@ -9310,6 +9309,10 @@ function func_calculate_euler_fokker_genus
 		end while
 		$number_of_pitch_classes := $efg_number_of_pitch_classes
 
+	if ($number_of_pitch_classes < 1)
+		$number_of_pitch_classes := 1
+		?tuning_table[0] := 0.0
+	end if
 
     {octave reduction:}
 
@@ -9347,12 +9350,6 @@ function func_calculate_euler_fokker_genus
 			end while
         end if
 
-	
-
-
-
-
-
 	{sort(?efg_calc_array,1)} {od najwiekszej do najmniejszej wartosci}
 	{
 	$counter1 := 1
@@ -9382,50 +9379,35 @@ function func_calculate_euler_fokker_genus
 			inc($counter2)
 		end while
 
-		{ under dev. - remove duplicate steps}
-		if ( 1 = 0 )
-			if ($efg_remove_step_duplicates = 1)
-				$counter1 := 0
-				while ($counter1 < $number_of_pitch_classes - 1)
-					if (1=1)
-					{
-					if (?tuning_table[$counter1] > ?tuning_table[$counter1 + 1] - 1000000.0 and ?tuning_table[$counter1] < ?tuning_table[$counter1 + 1]  + 1000000.0)
-					}
-						$counter2 := $counter1 + 1
-						while ($counter2 < $number_of_pitch_classes)
-							?tuning_table[$counter2] := ?tuning_table[$counter2 + 1]
-							inc($counter2)
-						end while
-						dec($number_of_pitch_classes)
-					end if
-					inc($counter1)
-				end while
-			end if
+
+
+	{ under dev. - remove duplicate steps}
+		if ($efg_remove_step_duplicates = 1)
+			$counter1 := 0
+			while ($counter1 < $number_of_pitch_classes - 1)
+				if (?tuning_table[$counter1] > ?tuning_table[$counter1 + 1] - 1.0 and ?tuning_table[$counter1] < ?tuning_table[$counter1 + 1]  + 1.0)
+					$counter2 := $counter1 + 1
+					while ($counter2 < $number_of_pitch_classes)
+						?tuning_table[$counter2] := ?tuning_table[$counter2 + 1]
+						inc($counter2)
+					end while
+					dec($number_of_pitch_classes)
+					dec($counter1) {without this dec() only 1 element would be removed from each duplicate}
+				end if
+				inc($counter1)
+			end while
 		end if
 
-	{find the number of steps assuming that there is at least one 0.0 element in the ?efg_calc_array}
-	{
-		$counter1 := 0
-		while ($counter1 < num_elements(?efg_calc_array))
-			if (?efg_calc_array[$counter1] = 0.0)
-				$efg_number_of_pitch_classes := $counter1
-				$counter1 := 1500190
-			else
-				inc($counter1)
-			end if
-		end while
-	}
+	{test}
+	if ( 1 = 0 )
+		message("Number of pitch classes: " & $number_of_pitch_classes & " " & "Tuning table: " & ?tuning_table[0] & " "  & ?tuning_table[1] & " " & ?tuning_table[2] & " " & ?tuning_table[3] & " " & ?tuning_table[4] & " " & ?tuning_table[5] & " " & ?tuning_table[6])
+	end if
+	{call debug}
 
-{call debug}
-
-
-
-	{interval of equivalence in cents}
+	{interval of equivalence is set as additional last step of the scale (wont be used)}
 		?tuning_table[$number_of_pitch_classes+1] := ~interval_of_equivalence
 
-		{$number_of_pitch_classes := $efg_number_of_pitch_classes}
-
-		{temporary bypass of the above code}
+		{for debugging (set a 100c scale)}
 		if (1 = 0)
 			$number_of_pitch_classes := 1
 			?tuning_table[0] := 0.0
@@ -16046,9 +16028,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                          v 1 . 0  3  9  1                                    +}
+{+                                        v  1 . 0  3  4                                        +}
 {+                                                                                              +}
-{+                               last edit date: 2024-08-02-18-59                               +}
+{+                               last edit date: 2024-08-03-12-32                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
