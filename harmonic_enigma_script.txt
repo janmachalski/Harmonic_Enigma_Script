@@ -1,12 +1,12 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 1"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-08-03-12-32 "
+		@last_edit_date :=	 	" 2024-08-04-13-46 "
 
-	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {Dowland's Lute Tuning}
+	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {One of Dowland's lute tunings}
 
 	declare ~concert_pitch_freq := 261.625        {Default concert pitch in Hertz. Concert pitch can not be automated!}
 
@@ -2348,7 +2348,7 @@ on init
 			declare ~efg_liczba_w_pamieci := 0.0
 			declare $efg_table_column_width := 90
 			declare $efg_value_width := 60
-			declare $efg_dynamic_generator_index := 0
+			declare $efg_iter := 0
 
 			$counter1:= 0
 
@@ -9197,12 +9197,38 @@ function func_calculate_euler_fokker_genus
 	end while
 	}
 	
+	{reset efg_calc_array}
 	$counter1 := 0
 	while ($counter1 < num_elements(?efg_calc_array))
-		?efg_calc_array[$counter1] := 0.0
+		?efg_calc_array[$counter1] := 1.0
 		inc($counter1)
 	end while
 
+	
+	{init $efg_iter to 2^(n-1) which is the total number of possible combinations minus 1}
+	$efg_iter := 1
+	$counter1 := 0
+	while ($counter1 < $efg_degree)
+		$efg_iter := $efg_iter * 2
+		inc($counter1)
+	end while
+	$efg_iter := $efg_iter - 1
+
+	{read $efg_iter as a binary representation of combination, e.g. 110 is a combination of two elements out of three}
+	$efg_number_of_pitch_classes := 0
+	while ($efg_iter >= 0)
+		$counter1 := $efg_degree
+		inc($efg_number_of_pitch_classes)
+		while ($counter1 > 0)
+			if ( (sh_right($efg_iter, $counter1 - 1) mod 2) = 1 )
+				?efg_calc_array[$efg_number_of_pitch_classes] := ?efg_calc_array[$efg_number_of_pitch_classes] * ?efg_generators[$counter1 - 1]
+			end if
+			dec($counter1)
+		end while
+		dec($efg_iter)
+	end while
+
+{
 	select ($efg_degree)
 		case 1
 			$efg_number_of_pitch_classes := 1
@@ -9267,7 +9293,7 @@ function func_calculate_euler_fokker_genus
 			?efg_calc_array[24] := ?efg_generators[0]*?efg_generators[2]*?efg_generators[3]*?efg_generators[4]
 			?efg_calc_array[25] := ?efg_generators[0]*?efg_generators[1]*?efg_generators[2]*?efg_generators[3]*?efg_generators[4]
 	end select
-
+}
 
 	{development, debug}
 	if ( 1 = 0 )
@@ -16028,9 +16054,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                        v  1 . 0  3  4                                        +}
+{+                                        v  1 . 0  3  4  1                                     +}
 {+                                                                                              +}
-{+                               last edit date: 2024-08-03-12-32                               +}
+{+                               last edit date: 2024-08-04-13-46                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
