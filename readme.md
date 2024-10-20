@@ -1,6 +1,6 @@
 # Harmonic Enigma Script for Kontakt
 ## About
-Harmonic Enigma Script v1.0341\
+Harmonic Enigma Script v1.044\
 This is my swiss knife script for manipulating tunings, scales and harmonies inside Native Instruments Kontakt.\
 I made is as my personal project. Right now I'm to lazy to record a proper tutorial but I might do one in the feature if people are interested.\
 Consider supporting me on patreon :) \
@@ -15,7 +15,7 @@ Unfortunately Kontakt has 5 script slots and sometimes all of them are taken by 
 ### Known issues
 1. The interval of equivalence can be set to any ratio, including values less than or equal to 1.0 which causes errors in the calculations.
 1. Link option doesn't work in the AU version of the Kontakt plugin. It is caused by the .AU format itself. Use a vst3 instance of Kontakt, if possible.
-
+1. Kontakt can't handle fast MIDI RPN messages, which are used to communicate with other instances of this script.
 ## Why another microtuning script?
 I wanted to create a tuning script that would allow me to easily automate any microtonal changes procedurally inside my favourite octave and non-octave tuning systems.
 ### Automation

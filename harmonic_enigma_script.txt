@@ -1,12 +1,12 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 1"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 4"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-08-04-13-46 "
+		@last_edit_date :=	 	" 2024-10-21-00-59 "
 
-	declare ?default_tuning[12] := (108.237, 203.910, 284.447, 387.954, 498.045, 597.000, 701.955, 810.192, 905.865, 986.402, 1089.909, 1200.000) {One of Dowland's lute tunings}
+	declare ?default_tuning[12] := (100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0)
 
 	declare ~concert_pitch_freq := 261.625        {Default concert pitch in Hertz. Concert pitch can not be automated!}
 
@@ -6802,6 +6802,12 @@ function debug()
 	exit
 end function
 
+function jm_rpn_send()
+	if ($switch__rpn_connect = 0)
+		exit
+	end if
+	set_rpn($rpn_connect__channel_num + $rpn_relative_port_index, get_control_par(%ui_id_rpn_krosownica[$rpn_relative_port_index], $CONTROL_PAR_VALUE) - get_control_par(%ui_id_rpn_krosownica[$rpn_relative_port_index], $CONTROL_PAR_MIN_VALUE))	
+end function
 
 function update__last_note_info_panel()
 	{--> ui_panel $panel__last_note_info}
@@ -6848,8 +6854,6 @@ function update__last_note_info_panel()
 					set_knob_label ($dummy_knob_detune_value_cents, " " & $dummy_knob_detune_value_cents)
 				$dummy_knob_detune_value_cent_percentage := abs(($target_key-$nearest_key)*1000000 + ($detune_amount_milicents) / 10) mod 100
 					set_knob_label ($dummy_knob_detune_value_cent_percentage, " " & $dummy_knob_detune_value_cent_percentage)
-
-			
 					
 end function
 
@@ -7587,6 +7591,9 @@ function recalculate_epimoric_bitonal_twinscale_module()
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $number_of_pitch_classes)
@@ -8227,6 +8234,9 @@ function recalculate_tuning_from_cent_uivalues()
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $knob__number_of_pitch_classes__tune_by_cents)
@@ -8498,6 +8508,9 @@ function recalculate_ji_ratios_tuning_from_knobs()
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $knob__number_of_pitch_classes__jiknobs)
@@ -8914,6 +8927,9 @@ function recalculate_tuning_from_expknobs()
  	  	case 0
  	  		~reduction_interval := ~interval_of_equivalence
     end select
+    if (~reduction_interval = 0.0)
+    	~reduction_interval := 1200.0
+    end if
     if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
    		$counter1 := 0
 		while ($counter1 < $knob__number_of_pitch_classes__expknobs)
@@ -9348,6 +9364,9 @@ function func_calculate_euler_fokker_genus
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $number_of_pitch_classes)
@@ -9575,6 +9594,9 @@ $cps_k__num_of_elem_in_combination := 2}
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $cps_combi_count)
@@ -9902,6 +9924,9 @@ function recalculate_tuning_from_ji_ratios()
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $knob__number_of_pitch_classes__tune_by_ji_ratios_precise)
@@ -10173,6 +10198,9 @@ function recalculate_tuning_from_exponent_ratios()
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios)
@@ -11252,6 +11280,9 @@ function recalculate_tuning_from_periodandgenerator_panel()
 	 	  	case 0
 	 	  		~reduction_interval := ~interval_of_equivalence
 	    end select
+	    if (~reduction_interval = 0.0)
+	    	~reduction_interval := 1200.0
+	    end if
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $number_of_pitch_classes)
@@ -11443,6 +11474,9 @@ function calculate_epimoric_tuning()
 		 	  	case 0
 		 	  		~reduction_interval := ~interval_of_equivalence
 		    end select
+		    if (~reduction_interval = 0.0)
+		    	~reduction_interval := 1200.0
+		    end if
 		    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 		   		$counter1 := 0
 				while ($counter1 < $number_of_pitch_classes)
@@ -11618,13 +11652,24 @@ end function
 
 function update_interval_of_equivalence()
 			~interval_of_equivalence := 1200.0*log( exp((int_to_real($knob__interval_of_equivalence_power_numerator)/int_to_real($knob__interval_of_equivalence_power_denominator)) * log(int_to_real($knob__interval_of_equivalence_numerator)/int_to_real($knob__interval_of_equivalence_denominator))) )/log(2.0)
+
 			set_text ($label_interval_of_equivalence,"i n t e r v a l   o f   e q u i v a l e n c e    =   ( " & $knob__interval_of_equivalence_numerator & " / " & $knob__interval_of_equivalence_denominator & " ) ^ ( " & $knob__interval_of_equivalence_power_numerator & " / " & $knob__interval_of_equivalence_power_denominator & " ) " & " =  " & floor(~interval_of_equivalence*100.0)/100.0 & "c")
+
 	call recalculate_tuning
 end function
+function prevent_negative_interval_of_equivalence()
+	if ($knob__interval_of_equivalence_power_numerator < $knob__interval_of_equivalence_denominator)
+		$__i__ := get_control_par(get_ui_id($knob__interval_of_equivalence_numerator), $CONTROL_PAR_VALUE)
+		set_control_par(get_ui_id($knob__interval_of_equivalence_numerator), $CONTROL_PAR_VALUE, get_control_par(get_ui_id($knob__interval_of_equivalence_denominator), $CONTROL_PAR_VALUE)) 
+		set_control_par(get_ui_id($knob__interval_of_equivalence_denominator), $CONTROL_PAR_VALUE, $__i__) 
+	end if
+end function
 function onuicontrol__knob__interval_of_equivalence_numerator()
+	call prevent_negative_interval_of_equivalence
 	call update_interval_of_equivalence
 end function
 function onuicontrol__knob__interval_of_equivalence_denominator()
+	call prevent_negative_interval_of_equivalence
 	call update_interval_of_equivalence
 end function
 function onuicontrol__knob__interval_of_equivalence_power_numerator()
@@ -12287,9 +12332,9 @@ function onuicontrol__switch__harppedal_1__d_flat()
 	%harppedal__flat_switches[0] := $switch__harppedal_1__d_flat
 	select (%harppedal__flat_switches[0])
 		case 0
-			set_control_par_str(%switchids__harppedals__flats_btns[7], $CONTROL_PAR_TEXT, "[ II ]")
+			set_control_par_str(%switchids__harppedals__flats_btns[0], $CONTROL_PAR_TEXT, "[ II ]")
 		case 1
-			set_control_par_str(%switchids__harppedals__flats_btns[7], $CONTROL_PAR_TEXT, "[  b  ]")
+			set_control_par_str(%switchids__harppedals__flats_btns[0], $CONTROL_PAR_TEXT, "[  b  ]")
 	end select
 end function
 function onuicontrol__switch__harppedal_2__c_flat()
@@ -12740,13 +12785,7 @@ end function
 
 
 
-function jm_rpn_send()
-	if ($switch__rpn_connect = 0)
-		exit
-	end if
-	set_rpn($rpn_connect__channel_num + $rpn_relative_port_index, get_control_par(%ui_id_rpn_krosownica[$rpn_relative_port_index], $CONTROL_PAR_VALUE) - get_control_par(%ui_id_rpn_krosownica[$rpn_relative_port_index], $CONTROL_PAR_MIN_VALUE))
-	
-end function
+
 
 function jm_rpn_receive()
 	select($rpn_relative_port_index)
@@ -15764,6 +15803,31 @@ on ui_control($efg_remove_step_duplicates)
 	call jm_rpn_send
 end on
 
+function send_rpn_last_note_info
+	{NOTE THAT KONTAKT CAN'T HANDLE FAST RPN MESSAGES.}
+			{send MIDI RPN messages with the information about last note:}
+				if (1=1)
+					$rpn_relative_port_index := 425 {midi note pitch info (0-127)}
+					call jm_rpn_send
+				end if
+				if (1=1)
+					$rpn_relative_port_index := 426 {midi note velocity info (0-127)}
+					call jm_rpn_send
+				end if
+				if (1=1)
+					$rpn_relative_port_index := 427 {chromatic semitone info (0-11)}
+					call jm_rpn_send
+				end if
+				if (1=1)
+					$rpn_relative_port_index := 428 {cent detune from 12EDO A440 (-63,+64c)}
+					call jm_rpn_send
+				end if
+				if (1=1)
+					$rpn_relative_port_index := 429 {cent percent (0.01c. units from 0 to 100)}
+					call jm_rpn_send
+				end if
+end function
+
 on rpn
 	if ($switch__rpn_connect = 1)
 		{message($RPN_ADDRESS - $rpn_connect__channel_num)}
@@ -16037,6 +16101,7 @@ on note
 	end if
 	
 	call update__last_note_info_panel	
+	{call send_rpn_last_note_info}
 	%custom_key_down_array[$EVENT_NOTE] := 1
 
 	if(1=1)
@@ -16054,9 +16119,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                        v  1 . 0  3  4  1                                     +}
+{+                                        v  1 . 0  4  4                                        +}
 {+                                                                                              +}
-{+                               last edit date: 2024-08-04-13-46                               +}
+{+                               last edit date: 2024-10-21-00-59                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
