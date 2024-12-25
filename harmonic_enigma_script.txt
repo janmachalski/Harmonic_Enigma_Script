@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 4"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 6"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-10-21-00-59 "
+		@last_edit_date :=	 	" 2024-12-26-23-56 "
 
 	declare ?default_tuning[12] := (100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0)
 
@@ -14,11 +14,10 @@ on init
 
 	declare $concert_pitch_midi_key := 60 {MIDI key that is tuned to ~concert_pitch  ("the tonic")}
 
-	{------------------------------------------
-
-	I HOPE YOU DON"T HAVE TO GO BELOW THIS LINE
-
-	-------------------------------------------}
+{++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++}
+{   H   a   r   m   o   n   i   c       E   n   i   g   m   a       S   c   r   i   p   t        }
+{   this is my overkill swiss army knife for scalesmithing and other tuning related stuff        }
+{++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++}
 
 	if (1 = 1)
 		disable_logging($NI_LOG_WARNING)
@@ -4633,7 +4632,7 @@ on init
 
 
 
-
+	if (1 = 1)
 
 	{epimoric modulation module:}
 
@@ -4721,6 +4720,7 @@ on init
 
 		{declare variables need for pure functionality of the func_epimoric_transposition:}
 
+		{input parameters:}
 		declare $eF__gradus1 := 0
 		declare $eF__gradus2 := 0
 		declare $eF__xtimes := 0
@@ -4728,23 +4728,28 @@ on init
 		declare $eF__dying_battery := 0
 		declare $eF__polish_mirror := 0
 		declare $eF__inlet_mirror_flag := 0
+
+		{output parameters:}
+		declare $eF__step_compensation := 0
+		declare ~eF__root_transposition_cents := 0.0
+		declare $eF__outlet_mirror_flag := 0
+
+		{helper variables for func_epimoric_transposition: }
+		declare $eF__temp_int := 0
+		declare ~eF__temp_float := 0.0
 		declare $eF__tuningContext_num_of_pitch_classes := 0
 		declare ~eF__tuningContext_interval_of_equivalence := 0.0
 		declare ~eF__tuningContext_gradus1_above_root := 0.0
 		declare ~eF__tuningContext_gradus2_above_root := 0.0
 		declare ~eF__tuningContext_gradus1_below_root := 0.0
 		declare ~eF__tuningContext_gradus2_below_root := 0.0
-
 		declare $eF__odd_step_compensation := 0
 		declare ~eF__odd_root_transposition_cents := 0.0
 		declare $eF__even_step_compensation := 0
 		declare ~eF__even_root_transposition_cents := 0.0
 
-		declare $eF__step_compensation := 0
-		declare ~eF__root_transposition_cents := 0.0
-		declare $eF__outlet_mirror_flag := 0
 
-		{declare epimoric module helper variables:}
+		{declare epimoric modules helper variables:}
 
 		declare ~epimoric_module__transposition_cents := 0.0
 		declare $epimoric_module__step_compensation := 0
@@ -4782,10 +4787,9 @@ on init
 		declare $epimoric_module_C___odd_step_compensation := 0
 		declare ~epimoric_module_C___root_transposition_cents := 0.0
 		declare $epimoric_module_C___step_compensation := 0
+	end if
 
-
-
-
+	if (1 = 1)
 
 		{epimoric module gui spacing:}
 		declare $epimoric_module_column_1_offset
@@ -4913,7 +4917,7 @@ on init
 				set_control_par(get_ui_id($epimoric_module_A__knob2),$CONTROL_PAR_POS_Y,0)	
 				set_knob_label($epimoric_module_A__knob2,$epimoric_module_A__arg2)	
 				set_text($epimoric_module_A__knob2,"i2")
-			declare ui_knob $epimoric_module_A__knob3 (-127, 0, 1)
+			declare ui_knob $epimoric_module_A__knob3 (0, 127, -1)
 				read_persistent_var($epimoric_module_A__xtimes_backward)
 				$epimoric_module_A__knob3 := $epimoric_module_A__xtimes_backward
 				set_control_par(get_ui_id ($epimoric_module_A__knob3),$CONTROL_PAR_PARENT_PANEL,get_ui_id($epimoric_module_A))
@@ -5000,7 +5004,7 @@ on init
 				set_control_par(get_ui_id($epimoric_module_B__knob2),$CONTROL_PAR_POS_Y,0)	
 				set_knob_label($epimoric_module_B__knob2,$epimoric_module_B__arg2)	
 				set_text($epimoric_module_B__knob2,"i2")
-			declare ui_knob $epimoric_module_B__knob3 (-127, 0, 1)
+			declare ui_knob $epimoric_module_B__knob3 (0, 127, -1)
 				read_persistent_var($epimoric_module_B__xtimes_backward)
 				$epimoric_module_B__knob3 := $epimoric_module_B__xtimes_backward
 				set_control_par(get_ui_id ($epimoric_module_B__knob3),$CONTROL_PAR_PARENT_PANEL,get_ui_id($epimoric_module_B))
@@ -5087,7 +5091,7 @@ on init
 				set_control_par(get_ui_id($epimoric_module_C__knob2),$CONTROL_PAR_POS_Y,0)	
 				set_knob_label($epimoric_module_C__knob2,$epimoric_module_C__arg2)	
 				set_text($epimoric_module_C__knob2,"i2")
-			declare ui_knob $epimoric_module_C__knob3 (-127, 0, 1)
+			declare ui_knob $epimoric_module_C__knob3 (0, 127, -1)
 				read_persistent_var($epimoric_module_C__xtimes_backward)
 				$epimoric_module_C__knob3 := $epimoric_module_C__xtimes_backward
 				set_control_par(get_ui_id ($epimoric_module_C__knob3),$CONTROL_PAR_PARENT_PANEL,get_ui_id($epimoric_module_C))
@@ -5103,8 +5107,10 @@ on init
 				set_control_par(get_ui_id($epimoric_module_C__knob4),$CONTROL_PAR_POS_Y,0)	
 				set_text($epimoric_module_C__knob4,"  x_+")
 
+	end if
 
-		{transposition by interval module}
+
+	{transposition by interval module}
 
 
 	{transpose by interval module $gui_panel__modulation_tab_transposition_interval}
@@ -7120,7 +7126,6 @@ end function
 
 
 
-
 function func_epimoric_transposition()
 	{function arguments (all of them shall be set before calling this function):
 		$eF__gradus1
@@ -7130,54 +7135,64 @@ function func_epimoric_transposition()
 		$eF__dying_battery
 		$eF__polish_mirror
 		$eF__inlet_mirror_flag
-		$eF__tuningContext_num_of_pitch_classes := $number_of_pitch_classes
-		~eF__tuningContext_interval_of_equivalence := ~interval_of_equivalence
-		~eF__tuningContext_gradus1_above_root := ?tuning_table[$epimoric_module_A__arg1]
-		~eF__tuningContext_gradus2_above_root := ?tuning_table[$epimoric_module_A__arg2]
-		~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_A__arg1]
-		~eF__tuningContext_gradus2_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_A__arg2]
 	return variables:
-		$eF__odd_step_compensation
-		~eF__odd_root_transposition_cents
-		$eF__even_step_compensation
-		~eF__even_root_transposition_cents
-
 		$eF__step_compensation
 		~eF__root_transposition_cents
 		$eF__outlet_mirror_flag
 	}
 	{~__f1_ := int_to_real(0)}
 
+		$eF__tuningContext_num_of_pitch_classes := $number_of_pitch_classes
+		~eF__tuningContext_interval_of_equivalence := ~interval_of_equivalence
 
-{*}		select($eF__ouroboros)
+		{
+		if ($eF__xtimes < 0)
+			$eF__temp_int := $eF__gradus1
+			$eF__gradus1 := $eF__gradus2
+			$eF__gradus2 := $eF__temp_int
+		end if
+		}
+
+		~eF__tuningContext_gradus1_above_root := ?tuning_table[$eF__gradus1]
+		~eF__tuningContext_gradus2_above_root := ?tuning_table[$eF__gradus2]
+		if ($eF__gradus1 = 0)
+		 ~eF__tuningContext_gradus1_below_root := -?tuning_table[0]
+		end if
+		if ($eF__gradus1 # 0)
+			~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$eF__gradus1]
+		end if
+		if ($eF__gradus2 = 0)
+		 ~eF__tuningContext_gradus2_below_root := -?tuning_table[0]
+		end if
+		if ($eF__gradus2 # 0)
+			~eF__tuningContext_gradus2_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$eF__gradus2]
+		end if
+
+
+		select($eF__ouroboros)
 			case 0
 				select($eF__dying_battery)
-					case 0 {itoi}
+{*}					case 0 {itoi}
 						select($eF__inlet_mirror_flag)
 							case 0
-								~__f1_ := ~eF__tuningContext_gradus1_above_root
-								~__f2_ := ~eF__tuningContext_gradus2_above_root
+								~eF__temp_float := ~eF__tuningContext_gradus1_above_root - ~eF__tuningContext_gradus2_above_root
 							case 1
-								~__f1_ := ~eF__tuningContext_gradus1_below_root
-								~__f2_ := ~eF__tuningContext_gradus2_below_root
+								~eF__temp_float := ~eF__tuningContext_gradus1_below_root - ~eF__tuningContext_gradus2_below_root
 						end select
-						~__f__ := ~__f1_ - ~__f2_
-						~eF__root_transposition_cents := ~__f__ * int_to_real($eF__xtimes)
-						$__i__ := $eF__gradus2 - $eF__gradus1
-						$eF__step_compensation := $__i__  * $eF__xtimes
+						~eF__root_transposition_cents := ~eF__temp_float * int_to_real($eF__xtimes)
+						$eF__temp_int := $eF__gradus2 - $eF__gradus1
+						$eF__step_compensation := $eF__temp_int  * $eF__xtimes
+
 					case 1 {itoinvi;changeUtonal;}
 						select($eF__inlet_mirror_flag)
 							case 0
-								~__f1_ := ~eF__tuningContext_gradus1_above_root
-								~__f2_ := ~eF__tuningContext_gradus2_below_root
+								~eF__temp_float := ~eF__tuningContext_gradus1_above_root + ~eF__tuningContext_gradus2_below_root
 							case 1
-								~__f1_ := ~eF__tuningContext_gradus1_below_root
-								~__f2_ := ~eF__tuningContext_gradus2_above_root
+								~eF__temp_float := ~eF__tuningContext_gradus1_below_root + ~eF__tuningContext_gradus2_above_root
 						end select
-						~__f__ := ~__f1_ + ~__f2_
-						~eF__root_transposition_cents := ~__f__  * int_to_real($eF__xtimes)
-						$__i__ := -($eF__gradus2 + $eF__gradus1)
-						$eF__step_compensation := $__i__ * $eF__xtimes
+						~eF__root_transposition_cents := ~eF__temp_float  * int_to_real($eF__xtimes)
+						$eF__temp_int := -($eF__gradus2 + $eF__gradus1) 
+						$eF__step_compensation := $eF__temp_int * $eF__xtimes
 				end select
 				$eF__outlet_mirror_flag := $eF__inlet_mirror_flag
 			case 1
@@ -7275,6 +7290,7 @@ function func_epimoric_transposition()
 end function
 
 
+
 function recalculate_epimoric_module()
 
 			$epimoric_module_A___inlet_inv_scale_flag := 0 {configure later for connection with other modules}
@@ -7282,20 +7298,11 @@ function recalculate_epimoric_module()
 				$eF__inlet_mirror_flag := $epimoric_module_A___inlet_inv_scale_flag
 				$eF__gradus1 := $epimoric_module_A__arg1
 				$eF__gradus2 := $epimoric_module_A__arg2
-				$eF__xtimes := $epimoric_module_A__xtimes_backward + $epimoric_module_A__xtimes_forward
+				$eF__xtimes :=  $epimoric_module_A__xtimes_forward - $epimoric_module_A__xtimes_backward
 				$eF__ouroboros := $epimoric_module_A__ouroboros_transposition
 				$eF__dying_battery := $epimoric_module_A__dying_battery
 				$eF__polish_mirror := $epimoric_module_A__polish_mirror
-				$eF__tuningContext_num_of_pitch_classes := $number_of_pitch_classes
-				~eF__tuningContext_interval_of_equivalence := ~interval_of_equivalence
-				~eF__tuningContext_gradus1_above_root := ?tuning_table[$epimoric_module_A__arg1]
-				~eF__tuningContext_gradus2_above_root := ?tuning_table[$epimoric_module_A__arg2]
-				~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[abs($number_of_pitch_classes-$epimoric_module_A__arg1)]
-				~eF__tuningContext_gradus2_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_A__arg2]
 		call func_epimoric_transposition()
-
-		
-		
 				~epimoric_module_A___root_transposition_cents := ~eF__root_transposition_cents
 				$epimoric_module_A___step_compensation := $eF__step_compensation
 				$epimoric_module_A___outlet_inv_scale_flag := $eF__outlet_mirror_flag
@@ -7306,16 +7313,10 @@ function recalculate_epimoric_module()
 				$eF__inlet_mirror_flag := $epimoric_module_B___inlet_inv_scale_flag
 				$eF__gradus1 := $epimoric_module_B__arg1
 				$eF__gradus2 := $epimoric_module_B__arg2
-				$eF__xtimes := $epimoric_module_B__xtimes_backward + $epimoric_module_B__xtimes_forward
+				$eF__xtimes :=  $epimoric_module_B__xtimes_forward - $epimoric_module_B__xtimes_backward
 				$eF__ouroboros := $epimoric_module_B__ouroboros_transposition
 				$eF__dying_battery := $epimoric_module_B__dying_battery
 				$eF__polish_mirror := $epimoric_module_B__polish_mirror
-				$eF__tuningContext_num_of_pitch_classes := $number_of_pitch_classes
-				~eF__tuningContext_interval_of_equivalence := ~interval_of_equivalence
-				~eF__tuningContext_gradus1_above_root := ?tuning_table[$epimoric_module_B__arg1]
-				~eF__tuningContext_gradus2_above_root := ?tuning_table[$epimoric_module_B__arg2]
-				~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_B__arg1]
-				~eF__tuningContext_gradus2_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_B__arg2]
 		call func_epimoric_transposition
 				~epimoric_module_B___root_transposition_cents := ~eF__root_transposition_cents
 				$epimoric_module_B___step_compensation := $eF__step_compensation
@@ -7327,30 +7328,22 @@ function recalculate_epimoric_module()
 				$eF__inlet_mirror_flag := $epimoric_module_C___inlet_inv_scale_flag
 				$eF__gradus1 := $epimoric_module_C__arg1
 				$eF__gradus2 := $epimoric_module_C__arg2
-				$eF__xtimes := $epimoric_module_C__xtimes_backward + $epimoric_module_C__xtimes_forward
+				$eF__xtimes :=  $epimoric_module_C__xtimes_forward - $epimoric_module_C__xtimes_backward
 				$eF__ouroboros := $epimoric_module_C__ouroboros_transposition
 				$eF__dying_battery := $epimoric_module_C__dying_battery
 				$eF__polish_mirror := $epimoric_module_C__polish_mirror
-				$eF__tuningContext_num_of_pitch_classes := $number_of_pitch_classes
-				~eF__tuningContext_interval_of_equivalence := ~interval_of_equivalence
-				~eF__tuningContext_gradus1_above_root := ?tuning_table[$epimoric_module_C__arg1]
-				~eF__tuningContext_gradus2_above_root := ?tuning_table[$epimoric_module_C__arg2]
-				~eF__tuningContext_gradus1_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_C__arg1]
-				~eF__tuningContext_gradus2_below_root := ~interval_of_equivalence - ?tuning_table[$number_of_pitch_classes-$epimoric_module_C__arg2]
 		call func_epimoric_transposition
 				~epimoric_module_C___root_transposition_cents := ~eF__root_transposition_cents
 				$epimoric_module_C___step_compensation := $eF__step_compensation
 				$epimoric_module_C___outlet_inv_scale_flag := $eF__outlet_mirror_flag
 
-
-
 		$epimoric_module__mirror_flag := $epimoric_module_C___outlet_inv_scale_flag
-
 
 		~epimoric_module__transposition_cents := ~epimoric_module_A___root_transposition_cents + ~epimoric_module_B___root_transposition_cents + ~epimoric_module_C___root_transposition_cents
 		$epimoric_module__step_compensation := $epimoric_module_A___step_compensation + $epimoric_module_B___step_compensation + $epimoric_module_C___step_compensation
 
-
+		{~epimoric_module__transposition_cents := 0.0}
+		{$epimoric_module__step_compensation := 0}
 
 	call debug
 
@@ -7532,6 +7525,8 @@ function recalculate_epimoric_bitonal_twinscale_module()
 		~epimoric_bitonal_twinscale_module___root_transposition_cents := 0.0
 		$epimoric_bitonal_twinscale_module___step_compensation := 0
 		$epimoric_bitonal_twinscale_module___upsidedown_twin := 0
+
+		$eF__inlet_mirror_flag := 0 {NOT IMPLEMENTED}
 
 		select($epimoric_bitonal_twinscale_module__switch1)
 			case 0
@@ -15967,12 +15962,17 @@ on note
 				~scale_period_cents := int_to_real($scale_period_number) * ~interval_of_equivalence
 
 			{convert scale degree to interval in cents:}
-			select ($play_note_from_mirrored_version_of_the_scale)
+				select ($play_note_from_mirrored_version_of_the_scale)
 				case 0
-					~scale_degree_cents := ?tuning_table[$scale_degree_number]
+				  ~scale_degree_cents := ?tuning_table[$scale_degree_number]
 				case 1
-					~scale_degree_cents := ~interval_of_equivalence - ?tuning_table[($number_of_pitch_classes)-($scale_degree_number)]
-			end select
+				  if ($scale_degree_number = 0)
+				     ~scale_degree_cents := -?tuning_table[$scale_degree_number]
+				  end if
+				  if ($scale_degree_number # 0)
+				    ~scale_degree_cents := ~interval_of_equivalence - ?tuning_table[($number_of_pitch_classes)-($scale_degree_number)]
+				  end if
+				end select
 
 		{add transposition values}
 
@@ -15983,7 +15983,7 @@ on note
 
 
 			{cent do centa az bedzie renta:}
-			~root_transposition_cents := ~concert_pitch_deviation_from_a440 + ~harppedaling_note_transposition_cents + ~epimoric_module__transposition_cents + ~transpositionbyinterval__compound_cent_transposition + ~panel_masterdetune_cent_value + int_to_real(1200*$knob__mastertransposition__octave) + ~mastertransposition_quick_circleoffifths_detune_cents + ~master_detune
+			~root_transposition_cents := ~concert_pitch_deviation_from_a440 + ~harppedaling_note_transposition_cents + ~transpositionbyinterval__compound_cent_transposition + ~panel_masterdetune_cent_value + int_to_real(1200*$knob__mastertransposition__octave) + ~mastertransposition_quick_circleoffifths_detune_cents + ~master_detune
 
 			if ($common_note_transposition_module_is_on = 1)
 				~root_transposition_cents := ~root_transposition_cents + ~common_note_transposition_module_calculated_cents
@@ -16119,9 +16119,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                        v  1 . 0  4  4                                        +}
+{+                                        v  1 . 0  4  6                                        +}
 {+                                                                                              +}
-{+                               last edit date: 2024-10-21-00-59                               +}
+{+                               last edit date: 2024-12-26-23-56                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
