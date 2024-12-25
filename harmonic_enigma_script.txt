@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 6"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 7"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-12-26-23-56 "
+		@last_edit_date :=	 	" 2024-12-27-00-32 "
 
 	declare ?default_tuning[12] := (100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0)
 
@@ -7206,7 +7206,7 @@ function func_epimoric_transposition()
 										~__f2_ := ~eF__tuningContext_gradus2_below_root
 									case 1
 										~__f1_ := ~eF__tuningContext_gradus1_above_root
-										~__f2_ := ~eF__tuningContext_gradus2_above_root
+										~__f2_ := ~eF__tuningContext_gradus2_below_root
 								end select
 							case 1
 								select ($eF__polish_mirror)
@@ -16119,9 +16119,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                        v  1 . 0  4  6                                        +}
+{+                                        v  1 . 0  4  7                                        +}
 {+                                                                                              +}
-{+                               last edit date: 2024-12-26-23-56                               +}
+{+                               last edit date: 2024-12-27-00-32                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
