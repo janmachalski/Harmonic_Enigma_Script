@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 7"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 8"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-12-27-00-32 "
+		@last_edit_date :=	 	" 2024-12-27-01-25 "
 
 	declare ?default_tuning[12] := (100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0)
 
@@ -7601,7 +7601,7 @@ function recalculate_epimoric_bitonal_twinscale_module()
 							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+						while ( (?tuning_table[$counter1] >= ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
 							if (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
@@ -8244,7 +8244,7 @@ function recalculate_tuning_from_cent_uivalues()
 							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+						while ( (?tuning_table[$counter1] >= ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
 							if (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
@@ -8518,7 +8518,7 @@ function recalculate_ji_ratios_tuning_from_knobs()
 							?jiknobs_tuning_cents[$counter1] := ?jiknobs_tuning_cents[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?jiknobs_tuning_cents[$counter1] > ~interval_of_equivalence) or (?jiknobs_tuning_cents[$counter1] < 0.0) )
+						while ( (?jiknobs_tuning_cents[$counter1] >= ~interval_of_equivalence) or (?jiknobs_tuning_cents[$counter1] < 0.0) )
 							if (?jiknobs_tuning_cents[$counter1] < 0.0)
 								?jiknobs_tuning_cents[$counter1] := -1.0 * ?jiknobs_tuning_cents[$counter1]
 							end if
@@ -8937,7 +8937,7 @@ function recalculate_tuning_from_expknobs()
 						?expknobs_tuning_cents[$counter1] := ?expknobs_tuning_cents[$counter1] + ~reduction_interval
 					end while
 				case 1
-					while ( (?expknobs_tuning_cents[$counter1] > ~interval_of_equivalence) or (?expknobs_tuning_cents[$counter1] < 0.0) )
+					while ( (?expknobs_tuning_cents[$counter1] >= ~interval_of_equivalence) or (?expknobs_tuning_cents[$counter1] < 0.0) )
 						if (?expknobs_tuning_cents[$counter1] < 0.0)
 							?expknobs_tuning_cents[$counter1] := -1.0 * ?expknobs_tuning_cents[$counter1]
 						end if
@@ -9328,6 +9328,8 @@ function func_calculate_euler_fokker_genus
 			inc($counter1)
 		end while
 	}
+	
+
 
 	{convert to cents}
 	$counter1 := 0
@@ -9367,14 +9369,14 @@ function func_calculate_euler_fokker_genus
 			while ($counter1 < $number_of_pitch_classes)
 				select($switch__reduction_mode)
 					case 0
-						while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+						while ( ?tuning_table[$counter1] >= ~reduction_interval )
 							?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
 						end while
 						while (?tuning_table[$counter1] < 0.0)
 							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+						while ( (?tuning_table[$counter1] >= ~reduction_interval) or (?tuning_table[$counter1] < 0.0) )
 							if (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
@@ -9420,7 +9422,6 @@ function func_calculate_euler_fokker_genus
 		end while
 
 
-
 	{ under dev. - remove duplicate steps}
 		if ($efg_remove_step_duplicates = 1)
 			$counter1 := 0
@@ -9437,6 +9438,8 @@ function func_calculate_euler_fokker_genus
 				inc($counter1)
 			end while
 		end if
+
+
 
 	{test}
 	if ( 1 = 0 )
@@ -9509,7 +9512,7 @@ end function
 function recalculate_combination_product_set()
 {$cps_n__generator_set_size := 4
 $cps_k__num_of_elem_in_combination := 2}
-
+message("test")
 {
 	while ($cps_counter < num_elements(?cps_tuning_table_cents))
 		?cps_tuning_table_cents[$cps_counter] := 0.0
@@ -9592,19 +9595,20 @@ $cps_k__num_of_elem_in_combination := 2}
 	    if (~reduction_interval = 0.0)
 	    	~reduction_interval := 1200.0
 	    end if
+
 	    if ($switch__interval_reduction = 1 and ~interval_of_equivalence # 0.0)
 	   		$counter1 := 0
 			while ($counter1 < $cps_combi_count)
 				select($switch__reduction_mode)
 					case 0
-						while ( ?cps_tuning_table_cents[$counter1] >= ~interval_of_equivalence )
+						while ( ?cps_tuning_table_cents[$counter1] >= ~reduction_interval )
 							?cps_tuning_table_cents[$counter1] := ?cps_tuning_table_cents[$counter1] - ~reduction_interval
 						end while
 						while (?cps_tuning_table_cents[$counter1] < 0.0)
 							?cps_tuning_table_cents[$counter1] := ?cps_tuning_table_cents[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?cps_tuning_table_cents[$counter1] > ~interval_of_equivalence) or (?cps_tuning_table_cents[$counter1] < 0.0) )
+						while ( (?cps_tuning_table_cents[$counter1] >= ~reduction_interval) or (?cps_tuning_table_cents[$counter1] < 0.0) )
 							if (?cps_tuning_table_cents[$counter1] < 0.0)
 								?cps_tuning_table_cents[$counter1] := -1.0 * ?cps_tuning_table_cents[$counter1]
 							end if
@@ -9615,7 +9619,6 @@ $cps_k__num_of_elem_in_combination := 2}
 								?cps_tuning_table_cents[$counter1] := ~reduction_interval - (?cps_tuning_table_cents[$counter1] - ~reduction_interval)
 							end if
 						end while
-						
 				end select
 				inc($counter1)
 			end while
@@ -9927,14 +9930,14 @@ function recalculate_tuning_from_ji_ratios()
 			while ($counter1 < $knob__number_of_pitch_classes__tune_by_ji_ratios_precise)
 				select($switch__reduction_mode)
 					case 0
-						while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+						while ( ?tuning_table[$counter1] >= ~reduction_interval )
 							?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
 						end while
 						while (?tuning_table[$counter1] < 0.0)
 							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+						while ( (?tuning_table[$counter1] >= ~reduction_interval) or (?tuning_table[$counter1] < 0.0) )
 							if (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
@@ -10201,14 +10204,14 @@ function recalculate_tuning_from_exponent_ratios()
 			while ($counter1 < $knob__number_of_pitch_classes__tune_by_exp_ratios)
 				select($switch__reduction_mode)
 					case 0
-						while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+						while ( ?tuning_table[$counter1] >= ~reduction_interval )
 							?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
 						end while
 						while (?tuning_table[$counter1] < 0.0)
 							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+						while ( (?tuning_table[$counter1] >= ~reduction_interval) or (?tuning_table[$counter1] < 0.0) )
 							if (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
@@ -11283,14 +11286,14 @@ function recalculate_tuning_from_periodandgenerator_panel()
 			while ($counter1 < $number_of_pitch_classes)
 				select($switch__reduction_mode)
 					case 0
-						while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+						while ( ?tuning_table[$counter1] >= ~reduction_interval )
 							?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
 						end while
 						while (?tuning_table[$counter1] < 0.0)
 							?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 						end while
 					case 1
-						while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+						while ( (?tuning_table[$counter1] >= ~reduction_interval) or (?tuning_table[$counter1] < 0.0) )
 							if (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 							end if
@@ -11477,14 +11480,14 @@ function calculate_epimoric_tuning()
 				while ($counter1 < $number_of_pitch_classes)
 					select($switch__reduction_mode)
 						case 0
-							while ( ?tuning_table[$counter1] >= ~interval_of_equivalence )
+							while ( ?tuning_table[$counter1] >= ~reduction_interval )
 								?tuning_table[$counter1] := ?tuning_table[$counter1] - ~reduction_interval
 							end while
 							while (?tuning_table[$counter1] < 0.0)
 								?tuning_table[$counter1] := ?tuning_table[$counter1] + ~reduction_interval
 							end while
 						case 1
-							while ( (?tuning_table[$counter1] > ~interval_of_equivalence) or (?tuning_table[$counter1] < 0.0) )
+							while ( (?tuning_table[$counter1] >= ~reduction_interval) or (?tuning_table[$counter1] < 0.0) )
 								if (?tuning_table[$counter1] < 0.0)
 									?tuning_table[$counter1] := -1.0 * ?tuning_table[$counter1]
 								end if
@@ -15921,8 +15924,13 @@ on note
 				$scale_period_number := ((1+$steps_from_reference_note)/$number_of_pitch_classes)-1
 			end if
 
-		$play_note_from_mirrored_version_of_the_scale := $epimoric_module__mirror_flag
 
+
+		if ($epimoric_module_is_on = 1)
+			$play_note_from_mirrored_version_of_the_scale := $epimoric_module__mirror_flag
+		else
+			$play_note_from_mirrored_version_of_the_scale := 0
+		end if
 
 		{suspedals module - suspended chords}
 		if ($scale_degree_number < 12)
@@ -16119,9 +16127,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                        v  1 . 0  4  7                                        +}
+{+                                        v  1 . 0  4  8                                        +}
 {+                                                                                              +}
-{+                               last edit date: 2024-12-27-00-32                               +}
+{+                               last edit date: 2024-12-27-01-25                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
