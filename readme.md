@@ -1,6 +1,6 @@
 # Harmonic Enigma Script for Kontakt
 ## About
-Harmonic Enigma Script v1.047\
+Harmonic Enigma Script v1.049\
 This is my swiss knife script for manipulating tunings, scales and harmonies inside Native Instruments Kontakt.\
 I made is as my personal project. Right now I'm to lazy to record a proper tutorial but I might do one in the feature if people are interested.\
 Consider supporting me on patreon :) \
@@ -13,9 +13,9 @@ Copy the script code and past it inside Kontakt instrument script editor. Once l
 ### Troubleshooting
 Unfortunately Kontakt has 5 script slots and sometimes all of them are taken by default. If this is the case, you might have to delete one of the current scripts or redo the instrument whatsover.
 ### Known issues
-1. The interval of equivalence can be set to any ratio, including values less than or equal to 1.0 which causes errors in the calculations.
+1. The interval of equivalence can be set to any ratio, including values less than or equal to 1.0 which might cause unexpected behaviour for some cases
 1. Link option doesn't work in the AU version of the Kontakt plugin. It is caused by the .AU format itself. Use a vst3 instance of Kontakt, if possible.
-1. Kontakt can't handle fast MIDI RPN messages, which are used to communicate with other instances of this script.
+1. NI Kontakt can't handle fast MIDI RPN messages, which are used to communicate with other instances of this script.
 ## Why another microtuning script?
 I wanted to create a tuning script that would allow me to easily automate any microtonal changes procedurally inside my favourite octave and non-octave tuning systems.
 ### Automation
@@ -45,42 +45,6 @@ I wanted to be able to use a tuning system that I created for my composition cal
 You can listen to it here: https://www.youtube.com/watch?v=yFuzTY85e2Q
 \
 The original project was made in Max MSP but I recreated it's features in KSP.\
-I will try to explain them briefly using my limited english vocabulary: The important think is that I enjoy the harmonies that this system proposes. There are some nice prime number sequences that I like to explore musically and geometrically. This system involves combining ratios in a form of (n+m)/m or n/(n+m) where n and m are simple integers. Those look pretty mathematically because the increments of m create consecutive steps of the scale, e.g. for n=5 m goes from zero to five forming a pentatonic with frequency ratios: (5+0)/5; (5+1)/5; (5+2)/5; (5+3)/5; (5+4)/5. I call those variables modus and gradus. Then, starting from any of the pitch classes, i construct a conjunct scale in a same manner. In the composition "Epimoric Music" I used only modus=3. The ratios (n+m)/m are similar to the harmonic mean monochord operations. Ratios in a form of n/(n+m) are similar to the arithmetic mean. I understand harmonic and arithmetic means as otonal and utonal harmonies, that is major-like overtone segments and minor-like undertone (subharmonic) scales. The core of this harmonic system are not the scales themselfs, but the fact, that they are transposed and modulated through common-tones. I find all of those possible connections very musical and I often use them as a compositional technique. I later expanded the rules of those tranpositions outside of the "epimoric scales" to all circular tuning systems. This is the gist of it.\
-While working on this project I was fascinated by the properties of superparticular (epimoric) ratios. I also used them in place of "standard" prime numbers inside the fundamemtal theorem of arithmetic. I think it's an interesting concept so I will mention it briefly:\
-The "epimoric notation" is similar to the Monzo notation (please refer to Tonalsoft encyclopedia) but is based on "(p+1)/p" ratios and not singular "p", e.g. 3=[0,1] in Monzo notation but it's [1,1] in the epimoric one, because 3=2<sup>0</sup>* 3<sup>1</sup>=(2/1)<sup>1</sup>* (3/2)<sup>1</sup>. When writing down natural integers the 'epimoric notation' seems less random than the Monzos (which are simple prime factors), because the total number of factors increases steadly with nearly every integer. I also prefer to think how many octaves (2/1), fifths (3/2) and major thirds (5/4) there are from a given fundamental and not how many 2nd, 3rd and 5th multipliers there are. Below are examples of this notation for numbers 1 to 13:
-
-#### Prime factors (Monzos) of natural integers (integer as a product of p<sup>n</sup>):
-1 = [0];\
-2 = [1];\
-3 = [0, 1];\
-4 = [2];\
-5 = [0, 0, 1];\
-6 = [1, 1];\
-7 = [0, 0, 0, 1];\
-8 = [3];\
-9 = [0, 2];\
-10 = [1, 0, 1];\
-11 = [0, 0, 0, 0, 1];\
-12 = [2, 1];\
-13 = [0, 0, 0, 0, 0, 1];
-
-
-#### "Epimoric factors" of natural integers (integer as a product of ((p+1)/p)<sup>n</sup>):
-1 = [0];\
-2 = [1];\
-3 = [1, 1];\
-4 = [2];\
-5 = [2, 0, 1];\
-6 = [2, 1];\
-7 = [2, 1, 0, 1];\
-8 = [3];\
-9 = [2, 2];\
-10 = [3, 0, 1];\
-11 = [3, 0, 1, 0, 1];\
-12 = [3, 1];\
-13 = [3, 1, 0, 0, 0, 1];
-
-Integers can also be written as a product of (p/(p+1))<sup>n</sup>.\
-I think it's a cool mathematical concept and I didn't see it used anywhere outside of my composition "Epimoric Music".
+I think it's a cool mathematical concept and I didn't see it used anywhere else.
 ### Detuning
 The script also enables octave stretching and detuning of individual keys, making it a cool playground for temperament exploration.

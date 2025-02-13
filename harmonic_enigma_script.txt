@@ -1,10 +1,10 @@
 on init
 	declare @this_script_label
-		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 8"
+		@this_script_label := 		" H a r m o n i c  E n i g m a  S c r i p t  v 1 . 0 4 9"
 	declare @label_copyright_string
 		@label_copyright_string := 		" (c) Jan Machalski "
 	declare @last_edit_date
-		@last_edit_date :=	 	" 2024-12-27-01-25 "
+		@last_edit_date :=	 	" 2025-02-14-00-04 "
 
 	declare ?default_tuning[12] := (100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0)
 
@@ -8583,9 +8583,9 @@ function onuicontrol__knob__number_of_pitch_classes__jiknobs()
 		end while
 	if ( $jiknobs_panel__navigation_counter * 6 >= $knob__number_of_pitch_classes__jiknobs)
 		$jiknobs_panel__navigation_counter := $knob__number_of_pitch_classes__jiknobs / 6
-		call display_correct_knobs_in_jiknobs_panel
-		call update_jiknobs_nav_button_txt
 	end if
+	call display_correct_knobs_in_jiknobs_panel
+	call update_jiknobs_nav_button_txt
 	call recalculate_ji_ratios_tuning_from_knobs
 	call recalculate_tuning_dependend_transposition_modules
 end function
@@ -11663,11 +11663,11 @@ function prevent_negative_interval_of_equivalence()
 	end if
 end function
 function onuicontrol__knob__interval_of_equivalence_numerator()
-	call prevent_negative_interval_of_equivalence
+	{call prevent_negative_interval_of_equivalence}
 	call update_interval_of_equivalence
 end function
 function onuicontrol__knob__interval_of_equivalence_denominator()
-	call prevent_negative_interval_of_equivalence
+	{call prevent_negative_interval_of_equivalence}
 	call update_interval_of_equivalence
 end function
 function onuicontrol__knob__interval_of_equivalence_power_numerator()
@@ -16127,9 +16127,9 @@ end on
 {+                                                                                              +}
 {+                         H a r m o n i c   E n i g m a   S c r i p t                          +}
 {+                                                                                              +}
-{+                                        v  1 . 0  4  8                                        +}
+{+                                        v  1 . 0  4  9                                        +}
 {+                                                                                              +}
-{+                               last edit date: 2024-12-27-01-25                               +}
+{+                               last edit date: 2025-02-14-00-04                               +}
 {+                                                                                              +}
 {+                               (c)   J a n   M a c h a l s k i                                +}
 {+                                                                                              +}
